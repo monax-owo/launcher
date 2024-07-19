@@ -1,0 +1,32 @@
+// 基本4px単位
+
+// @use "style/_";
+
+@forward "style/_variable";
+@forward "style/_function";
+@forward "style/_mixin";
+@forward "style/_theme";
+
+@use "style/_variable" as *;
+@use "style/_function" as *;
+@use "style/_mixin" as *;
+@use "style/_theme" as *;
+
+// @use "_variable";
+// @use "_function";
+// @use "_mixin";
+// @use "_theme";
+
+:root {
+  & {
+    @include variable;
+  }
+
+  &[data-theme="light"] {
+    @include light;
+  }
+
+  &[data-theme="dark"] {
+    @include dark;
+  }
+}

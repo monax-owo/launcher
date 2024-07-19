@@ -1,0 +1,30 @@
+@use "_function" as *;
+
+// bg = background
+// text = color
+// --s = box-shadow
+// --b = border
+// --hilight = highlight
+// --hover = :hover()
+
+@mixin light {
+  --bg: #ececec;
+  --2-bg: #d4d4d4;
+  --text: #2e2e2e;
+  --s-bg: #0000002e;
+  --b-bg: #2e2e2e;
+  --highlight-bg: #00b3aa;
+  --highlight-text: #{Lightest(var(--highlight-bg), 80%)};
+  --hover-bg: #{Darkest(var(--bg), 92%)};
+}
+
+@mixin dark {
+  --bg: #212121;
+  --2-bg: #111111;
+  --text: #d1d1d1;
+  --s-bg: #ffffff96;
+  --b-bg: #8f8f8f;
+  --highlight-bg: #00b3aa;
+  --highlight-text: #{Lightest(var(--highlight-bg), 80%)};
+  --hover-bg: #{Lightest(var(--bg), 80%)};
+}

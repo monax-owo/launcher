@@ -1,0 +1,13 @@
+@mixin variable {
+  --component-b-radius: 12px;
+  --Header-h: 56px;
+  --Header-max-w: 1280px;
+  --Header-radius: 12px;
+  --Icon-size: 200px;
+  --Icon-b-radius: calc(var(--Icon-size) / 10);
+  --highlight-size: 1px;
+  --b-radius: 8px;
+  --t-duration: 0.2s;
+  --blur: 16px;
+}
+// durationをモバイルのときに遅くする

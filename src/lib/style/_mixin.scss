@@ -1,0 +1,32 @@
+$breakpoints: (
+  undefined: "screen and (min-width: 400px)",
+  sm: "screen and (min-width: 640px)",
+  md: "screen and (min-width: 768px)",
+  lg: "screen and (min-width: 1024px)",
+  xl: "screen and (min-width: 1280px)",
+  2xl: "screen and (min-width: 1536px)",
+);
+
+// smの場合640px以上のときにスタイルが適用される
+// @include media(sm) {...style}
+@mixin media($breakpoint) {
+  @media #{map-get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
+
+@mixin shadow-1($blur) {
+  box-shadow: 0 0 $blur 0px var(--s-bg);
+}
+
+// モバイルのときはhoverの代わりにactiveを使うようにする
+@mixin hover() {
+  &:active {
+    @content;
+  }
+  @include media(md) {
+    &:hover {
+      @content;
+    }
+  }
+}

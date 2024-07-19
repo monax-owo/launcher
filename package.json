@@ -1,0 +1,51 @@
+{
+  "name": "launcher",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "lint": "prettier --check . && eslint .",
+    "format": "prettier --write .",
+    "deploy-check": "pnpm format && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json && pnpm lint && pnpm build && echo success!"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.7.0",
+    "@sveltejs/adapter-static": "^3.0.2",
+    "@sveltejs/kit": "^2.5.18",
+    "@sveltejs/vite-plugin-svelte": "^3.1.1",
+    "@tauri-apps/cli": "^1.6.0",
+    "@types/eslint__js": "^8.42.3",
+    "@typescript-eslint/eslint-plugin": "^7.16.0",
+    "@typescript-eslint/parser": "^7.16.0",
+    "autoprefixer": "^10.4.19",
+    "eslint": "8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-svelte": "^2.42.0",
+    "globals": "^15.8.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-css-order": "^2.1.2",
+    "prettier-plugin-svelte": "^3.2.5",
+    "sass": "^1.77.8",
+    "svelte": "^4.2.18",
+    "svelte-check": "^3.8.4",
+    "sveltekit-superforms": "^2.16.0",
+    "tslib": "^2.6.3",
+    "typescript": "5.2",
+    "typescript-eslint": "8.0.0-alpha.30",
+    "unplugin-auto-import": "^0.17.8",
+    "vite": "^5.3.3",
+    "zod": "^3.23.8"
+  },
+  "dependencies": {
+    "@fontsource-variable/fira-code": "^5.0.18",
+    "@fontsource-variable/montserrat": "^5.0.19",
+    "@fontsource-variable/noto-sans-jp": "^5.0.19",
+    "@tabler/icons-svelte": "3.6.0",
+    "sanitize.css": "^13.0.0"
+  }
+}

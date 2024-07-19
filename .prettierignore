@@ -1,0 +1,10 @@
+# Ignore files for PNPM, NPM and YARN
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+**/.git
+**/.github
+**/node_modules
+**/.svelte-kit
+src/@types/auto-imports.d.ts
+src-tauri/
