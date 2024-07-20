@@ -38,6 +38,7 @@ export default [
       "**/yarn.lock",
       "**/.git",
       "**/.github",
+      "**/src-tauri",
     ],
   },
   {
