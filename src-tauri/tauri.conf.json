@@ -12,15 +12,15 @@
   },
   "tauri": {
     "allowlist": {
-      "all": true,
+      "all": false,
       "window": {
         "all": false,
         "center": false,
-        "close": false,
+        "close": true,
         "create": false,
-        "hide": false,
-        "maximize": false,
-        "minimize": false,
+        "hide": true,
+        "maximize": true,
+        "minimize": true,
         "print": false,
         "requestUserAttention": false,
         "setAlwaysOnTop": false,
@@ -46,8 +46,8 @@
         "setTitle": false,
         "show": false,
         "startDragging": false,
-        "unmaximize": false,
-        "unminimize": false
+        "unmaximize": true,
+        "unminimize": true
       }
     },
     "bundle": {
