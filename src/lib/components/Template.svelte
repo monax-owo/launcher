@@ -14,9 +14,9 @@
     width: 100%;
     max-width: calc(var(--Header-max-w) - 256px);
     color: var(--text);
-    @include media(md) {
-      margin: 16px auto;
-      padding: 0 64px;
-    }
+    // @include media(md) {
+    //   margin: 16px auto;
+    //   padding: 0 64px;
+    // }
   }
 </style>

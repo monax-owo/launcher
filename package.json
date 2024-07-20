@@ -48,6 +48,7 @@
     "@fontsource-variable/montserrat": "^5.0.19",
     "@fontsource-variable/noto-sans-jp": "^5.0.19",
     "@tabler/icons-svelte": "3.6.0",
+    "@tauri-apps/api": "^1.6.0",
     "sanitize.css": "^13.0.0"
   }
 }
