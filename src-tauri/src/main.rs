@@ -5,7 +5,7 @@ use tauri::{CustomMenuItem, SystemTray, SystemTrayMenu};
 
 fn main() {
   let system_tray = SystemTray::new()
-    .with_menu(SystemTrayMenu::new().add_item(CustomMenuItem::new("test1", "title")));
+    .with_menu(SystemTrayMenu::new().add_item(CustomMenuItem::new("test", "title")));
 
   tauri::Builder::default()
     .system_tray(system_tray)
