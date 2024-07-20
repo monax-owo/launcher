@@ -24,6 +24,7 @@ fn main() {
   };
 
   let app = tauri::Builder::default();
+
   app
     .system_tray(system_tray)
     .setup(move |app| {

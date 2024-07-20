@@ -4,7 +4,7 @@
   import { appWindow } from "@tauri-apps/api/window";
   // false = max
   // true = unmax
-  let isFull: boolean = false;
+  let isFull: boolean = true;
 
   async function handleMaxim(event: MouseEvent) {
     isFull = await appWindow.isMaximized();
@@ -34,6 +34,8 @@
         <img
           src="https://api.iconify.design/mdi:window-maximize.svg"
           alt="maximize" />
+      {:else}
+        <img src="" alt="unmaximize" />
       {/if}
     </button>
     <button
