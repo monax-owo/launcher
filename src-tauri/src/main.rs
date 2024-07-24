@@ -2,27 +2,12 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use tauri::{
-  window, CustomMenuItem, LogicalPosition, Manager, PhysicalSize, Runtime, SystemTray,
-  SystemTrayEvent, SystemTrayMenu, Window, WindowEvent,
+  CustomMenuItem, LogicalPosition, Manager, PhysicalSize, Runtime, SystemTray, SystemTrayEvent,
+  SystemTrayMenu, Window, WindowEvent,
 };
 
 fn main() {
   let builder = tauri::Builder::default();
-
-  let system_tray = SystemTray::new()
-    .with_menu(
-      SystemTrayMenu::new()
-        .add_item(CustomMenuItem::new("test", "title"))
-        .add_item(CustomMenuItem::new("test2", "test2")),
-    )
-    .on_event(move |e| match e {
-      SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
-        "test" => println!("{id}"),
-        "show" => (),
-        &_ => (),
-      },
-      _ => (),
-    });
 
   let set_pos = |window: &Window| {
     let monitor = Window::current_monitor(window).unwrap().unwrap();
@@ -35,10 +20,30 @@ fn main() {
   };
 
   builder
-    .system_tray(system_tray)
     .setup(move |app| {
-      let window = app.get_window("main").unwrap();
-      set_pos(&window);
+      let handle = app.handle();
+      let main_window = app.get_window("main").expect("Failed to get main window");
+      set_pos(&main_window);
+      let _tray_handle = SystemTray::new()
+        .with_menu(
+          SystemTrayMenu::new()
+            .add_item(CustomMenuItem::new("test", "Title"))
+            .add_item(CustomMenuItem::new("show", "Show window"))
+            .add_item(CustomMenuItem::new("quit", "Quit")),
+        )
+        .on_event(move |e| match e {
+          SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
+            "test" => println!("{id}"),
+            "show" => main_window
+              .set_focus()
+              .expect("Failed to focus for main window"),
+            "quit" => handle.exit(0),
+            &_ => (),
+          },
+          _ => (),
+        })
+        .build(app)?;
+
       Ok(())
     })
     .on_window_event(move |e| match e.event() {
@@ -52,10 +57,16 @@ fn main() {
     .expect("error while running tauri application");
 }
 
-#[tauri::command]
-fn exit<R: Runtime>(app: tauri::AppHandle<R>, _window: tauri::Window<R>) {
-  println!("exit code:0");
+fn exit_0<R: Runtime>(app: tauri::AppHandle<R>, _window: tauri::Window<R>) {
+  app
+    .tray_handle()
+    .destroy()
+    .expect("Failed to remove tasktray icon");
   app.exit(0);
+}
+#[tauri::command]
+fn exit<R: Runtime>(app: tauri::AppHandle<R>, window: tauri::Window<R>) {
+  exit_0(app, window)
 }
 
 fn size(pm: &PhysicalSize<u32>, pw: &PhysicalSize<u32>) -> LogicalPosition<f64> {

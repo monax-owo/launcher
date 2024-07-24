@@ -4,7 +4,7 @@
     "beforeBuildCommand": "pnpm run vite:build",
     "beforeDevCommand": "pnpm run vite:dev",
     "devPath": "http://localhost:5173",
-    "distDir": "..build"
+    "distDir": "../build"
   },
   "package": {
     "productName": "launcher",
@@ -65,7 +65,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "io.github.monax-owo.launcher",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
