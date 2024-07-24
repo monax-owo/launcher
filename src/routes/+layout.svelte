@@ -1,19 +1,24 @@
 <script lang="ts">
+  import { invoke } from "@tauri-apps/api";
   // import type { LayoutData } from "./$types";
   // export let data: LayoutData;
   import { appWindow } from "@tauri-apps/api/window";
+
   // false = max
   // true = unmax
   let isFull: boolean = true;
 
-  async function handleMaxim(event: MouseEvent) {
+  const handleMaxim = async (event: MouseEvent) => {
     isFull = await appWindow.isMaximized();
     if (isFull) {
       appWindow.unmaximize();
     } else {
       appWindow.maximize();
     }
-  }
+  };
+  const handleExit = async () => {
+    await invoke("exit");
+  };
 </script>
 
 <div id="app">
@@ -38,10 +43,7 @@
         <img src="" alt="unmaximize" />
       {/if}
     </button>
-    <button
-      class="titlebar-button"
-      id="titlebar-close"
-      on:click={() => appWindow.close()}>
+    <button class="titlebar-button" id="titlebar-close" on:click={handleExit}>
       <img src="https://api.iconify.design/mdi:close.svg" alt="close" />
     </button>
   </div>

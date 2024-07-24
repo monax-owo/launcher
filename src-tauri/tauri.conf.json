@@ -96,12 +96,13 @@
       {
         "label": "main",
         "fullscreen": false,
-        "height": 600,
-        "resizable": true,
+        "width": 400,
+        "height": 800,
+        "resizable": false,
         "title": "launcher",
-        "width": 800,
         "decorations": false,
-        "titleBarStyle": "Overlay"
+        "titleBarStyle": "Overlay",
+        "skipTaskbar": true
       }
     ]
   }
