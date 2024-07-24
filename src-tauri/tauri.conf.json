@@ -96,8 +96,8 @@
       {
         "label": "main",
         "fullscreen": false,
-        "width": 400,
-        "height": 800,
+        "width": 800,
+        "height": 600,
         "resizable": false,
         "title": "launcher",
         "decorations": false,

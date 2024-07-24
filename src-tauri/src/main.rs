@@ -2,12 +2,13 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use tauri::{
-  CustomMenuItem, LogicalPosition, Manager, PhysicalSize, Runtime, SystemTray, SystemTrayEvent,
-  SystemTrayMenu, Window, WindowEvent,
+  window, CustomMenuItem, LogicalPosition, Manager, PhysicalSize, Runtime, SystemTray,
+  SystemTrayEvent, SystemTrayMenu, Window, WindowEvent,
 };
 
 fn main() {
-  let app = tauri::Builder::default();
+  let builder = tauri::Builder::default();
+
   let system_tray = SystemTray::new()
     .with_menu(
       SystemTrayMenu::new()
@@ -17,6 +18,7 @@ fn main() {
     .on_event(move |e| match e {
       SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
         "test" => println!("{id}"),
+        "show" => (),
         &_ => (),
       },
       _ => (),
@@ -26,16 +28,13 @@ fn main() {
     let monitor = Window::current_monitor(window).unwrap().unwrap();
     let monitor_size = monitor.size();
     let window_size = &window.outer_size().unwrap();
-    // if monitor_size.eq(window_size) {
-
-    // }
     let pos = size(monitor_size, window_size);
-    //
+
     window.set_position(pos).expect("Failed to resize");
     println!("set position");
   };
 
-  app
+  builder
     .system_tray(system_tray)
     .setup(move |app| {
       let window = app.get_window("main").unwrap();
@@ -43,6 +42,7 @@ fn main() {
       Ok(())
     })
     .on_window_event(move |e| match e.event() {
+      WindowEvent::Resized(_) => set_pos(&e.window()),
       WindowEvent::Destroyed => println!("destroy!"),
       WindowEvent::ScaleFactorChanged { .. } => set_pos(&e.window()),
       _ => (),
