@@ -9,11 +9,11 @@
   let isFull: boolean = true;
 
   const handleMaxim = async (event: MouseEvent) => {
-    isFull = await appWindow.isMaximized();
-    if (isFull) {
-      appWindow.unmaximize();
+    isFull = await appWindow.isVisible();
+    if (await appWindow.isVisible()) {
+      appWindow.show();
     } else {
-      appWindow.maximize();
+      appWindow.hide();
     }
   };
   const handleExit = async () => {
@@ -26,7 +26,7 @@
     <button
       class="titlebar-button"
       id="titlebar-minimize"
-      on:click={() => appWindow.minimize()}>
+      on:click={() => appWindow.hide()}>
       <img
         src="https://api.iconify.design/mdi:window-minimize.svg"
         alt="minimize" />

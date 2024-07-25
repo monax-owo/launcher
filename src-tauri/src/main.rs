@@ -1,11 +1,18 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use std::os::raw::c_void;
+
 use tauri::{
   CustomMenuItem, LogicalPosition, Manager, PhysicalSize, Runtime, SystemTray, SystemTrayEvent,
   SystemTrayMenu, Window, WindowEvent,
 };
 
+#[cfg(target_os = "windows")]
+use windows::Win32::{
+  Foundation::{BOOL, HWND},
+  Graphics::Dwm::{DwmSetWindowAttribute, DWMWA_TRANSITIONS_FORCEDISABLED},
+};
 fn main() {
   let builder = tauri::Builder::default();
 
@@ -23,6 +30,7 @@ fn main() {
     .setup(move |app| {
       let handle = app.handle();
       let main_window = app.get_window("main").expect("Failed to get main window");
+      let _hwnd = main_window.hwnd().unwrap();
       set_pos(&main_window);
       let _tray_handle = SystemTray::new()
         .with_menu(
@@ -31,25 +39,27 @@ fn main() {
             .add_item(CustomMenuItem::new("show", "Show window"))
             .add_item(CustomMenuItem::new("quit", "Quit")),
         )
-        .on_event(move |e| match e {
+        .on_event(move |e| match &e {
           SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
             "test" => println!("{id}"),
-            "show" => main_window
-              .set_focus()
-              .expect("Failed to focus for main window"),
-            "quit" => handle.exit(0),
+            "show" => {
+              main_window.show().expect("Failed to focus for main window");
+              main_window.set_focus().expect("Failed");
+            }
+            "quit" => {
+              handle.exit(0);
+            }
             &_ => (),
           },
           _ => (),
         })
         .build(app)?;
-
       Ok(())
     })
     .on_window_event(move |e| match e.event() {
       WindowEvent::Resized(_) => set_pos(&e.window()),
       WindowEvent::Destroyed => println!("destroy!"),
-      WindowEvent::ScaleFactorChanged { .. } => set_pos(&e.window()),
+      // WindowEvent::ScaleFactorChanged { .. } => set_pos(&e.window()),
       _ => (),
     })
     .invoke_handler(tauri::generate_handler![exit])
