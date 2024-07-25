@@ -1,12 +1,14 @@
-<h1 align="center">Monadic</h1>
-<div align="center">作ったものを置くところ</div>
+<h1 align="center">Launcher</h1>
+<div align="center">tauri</div>
 <div align="center">
-  <a href="https://monax-owo.github.io/monadic" target="_blank">
-    Monadic
+  <a href="" target="_blank">
+    Launcher
   </a>
 </div>
 
+- Tauri
+- Rust
+- Typescript
 - Svelte kit
 - Vite
 - Sass(Scss)
-- Github Actions
