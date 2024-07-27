@@ -13,7 +13,8 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
-    "deploy-check": "pnpm format && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json && pnpm lint && pnpm build && echo success!"
+    "rust:fmt": "cd ./src-tauri && cargo fmt && cd ..",
+    "deploy-check": "pnpm format && pnpm rust:fmt && pnpm check && pnpm lint && pnpm vite:build && echo success!"
   },
   "devDependencies": {
     "@eslint/js": "^9.7.0",
