@@ -11,8 +11,8 @@
   .Template {
     margin: 0 auto 0;
     padding: 0 16px;
-    height: 100%;
     max-width: calc(var(--Header-max-w) - 256px);
+    height: 100%;
     color: var(--text);
     // @include media(md) {
     //   margin: 16px auto;

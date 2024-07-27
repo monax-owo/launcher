@@ -1,14 +1,14 @@
 import type { Action } from "svelte/action";
-import { logger } from "$lib/util/logger";
+// TODO: クリップボードAPIはtauriにもあるので必要になったらそっちにする
 
 const copyText = (text: string): void => {
   navigator.clipboard
     .writeText(text)
     .then(() => {
-      logger.dev("Success", text);
+      //
     })
     .catch((err) => {
-      logger.error("Failed", err);
+      //
     });
 };
 
@@ -16,10 +16,10 @@ const pasteText = (): void => {
   navigator.clipboard
     .readText()
     .then(() => {
-      logger.dev("Success");
+      //
     })
     .catch((err) => {
-      logger.error("Failed", err);
+      //
     });
 };
 
