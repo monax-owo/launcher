@@ -17,9 +17,6 @@ importers:
       '@fontsource-variable/noto-sans-jp':
         specifier: ^5.0.19
         version: 5.0.19
-      '@tabler/icons-svelte':
-        specifier: 3.6.0
-        version: 3.6.0(svelte@4.2.18)
       '@tauri-apps/api':
         specifier: ^1.6.0
         version: 1.6.0
@@ -39,6 +36,9 @@ importers:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^3.1.1
         version: 3.1.1(svelte@4.2.18)(vite@5.3.3(@types/node@20.14.10)(sass@1.77.8))
+      '@tabler/icons-svelte':
+        specifier: 3.6.0
+        version: 3.6.0(svelte@4.2.18)
       '@tauri-apps/cli':
         specifier: ^1.6.0
         version: 1.6.0

@@ -2,14 +2,24 @@
   // import type { PageData } from './$types';
   // export let data: PageData;
   import { Template } from "$lib/autoimport";
+  import { enhance } from "$app/forms";
   import IconSearch from "@tabler/icons-svelte/IconSearch.svelte";
-  let count: number = 0;
+  import { open } from "@tauri-apps/api/shell";
   let stroke = 2;
 </script>
 
 <Template>
-  <form class="search" use:enchance>
-    <input type="text" class="search-box" autocomplete="off" />
+  <form
+    class="search"
+    use:enhance={({ formData, cancel }) => {
+      let query = formData.get("param");
+      if (query == null) {
+        cancel();
+      }
+      let url = `https://www.google.com/search?q=${query?.toString()}`;
+      open(url);
+    }}>
+    <input type="text" class="search-box" autocomplete="off" name="param" />
     <div class="icon">
       <button type="button"><IconSearch {stroke} /></button>
     </div>
@@ -44,7 +54,7 @@
     padding: 0;
     width: 100%;
     color: inherit;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   .icon {
     display: inline-block;

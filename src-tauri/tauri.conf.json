@@ -113,7 +113,7 @@
         "title": "launcher",
         "decorations": false,
         "titleBarStyle": "Overlay",
-        "skipTaskbar": true,
+        "skipTaskbar": false,
         "transparent": true
       }
     ]

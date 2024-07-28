@@ -7,3 +7,8 @@
 @function Lightest($color, $percent, $percent2: 100% - $percent) {
   @return color-mix(in srgb, $color $percent, #fff $percent2);
 }
+
+// #{Alpha()}
+@function Alpha($color, $percent: 50%) {
+  @return color-mix(in srgb, $color $percent, transparent);
+}

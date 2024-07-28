@@ -30,8 +30,9 @@ fn main() {
     let monitor_size = monitor.size();
     window.set_size(*monitor_size).expect("Failed to set size");
     window
-      .set_position(PhysicalPosition::new(0, 0))
+      .set_position(PhysicalPosition::new(-1, -1))
       .expect("Failed to set position");
+    // 0,0だとYoutubeが止まる。原因不明。ウィンドウがかぶさると動画が再生されないようになっている？
 
     println!("set position");
   }
@@ -45,6 +46,8 @@ fn main() {
       #[cfg(debug_assertions)]
       {
         main_window.open_devtools();
+        // main_window.set_ignore_cursor_events(true).unwrap();
+        // ts側でbodyにカーソルが乗っているときだけtrueにする？
       }
 
       if cfg!(target_os = "windows") {

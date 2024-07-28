@@ -31,11 +31,12 @@
 </div>
 
 <style lang="scss">
+  @use "$lib/global.scss" as *;
   :root {
     font-size: 20px;
   }
   :global(body) {
-    background: color-mix(in srgb, var(--bg) var(--bg-alpha), transparent);
+    background: #{Alpha(var(--bg), var(--bg-alpha))};
     overflow: hidden;
     scroll-behavior: smooth;
     scrollbar-gutter: auto;
