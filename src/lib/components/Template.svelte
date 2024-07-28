@@ -2,21 +2,15 @@
   export let test = "1536px";
 </script>
 
-<div class="Template" style:--test={test}>
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<div class="Template" style:--test={test} on:click|stopPropagation={() => {}}>
   <slot><div>no content</div></slot>
 </div>
 
 <style lang="scss">
-  @use "$lib/global.scss" as *;
-  .Template {
-    margin: 0 auto 0;
-    padding: 0 16px;
-    max-width: calc(var(--Header-max-w) - 256px);
-    height: 100%;
-    color: var(--text);
-    // @include media(md) {
-    //   margin: 16px auto;
-    //   padding: 0 64px;
-    // }
-  }
+  // @use "$lib/global.scss" as *;
+  // .Template {
+  //   display: block;
+  // }
 </style>

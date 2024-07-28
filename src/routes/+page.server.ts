@@ -9,7 +9,5 @@ import type { Actions, RequestEvent } from "./$types";
 export const prerender = false;
 
 export const actions = {
-  default: async (e: RequestEvent) => {
-    
-  },
+  default: async (e: RequestEvent) => {},
 } satisfies Actions;

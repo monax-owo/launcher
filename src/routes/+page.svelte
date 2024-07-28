@@ -11,6 +11,7 @@
 <Template>
   <form
     class="search"
+    method="post"
     use:enhance={({ formData, cancel }) => {
       let query = formData.get("param");
       if (query == null) {
@@ -27,11 +28,11 @@
 </Template>
 
 <style lang="scss">
-  :global(.Template) {
-    display: flex;
-    align-content: center;
-    justify-content: center;
-  }
+  // :global(.Template) {
+  // display: flex;
+  // align-content: center;
+  // justify-content: center;
+  // }
   .search {
     display: flex;
     justify-content: space-between;

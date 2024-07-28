@@ -17,15 +17,17 @@
   // Supports weights 300-700
   import "@fontsource-variable/fira-code";
   //
-  import { invoke, window } from "@tauri-apps/api";
-  import { hide } from "@tauri-apps/api/app";
+  import { app, invoke, window } from "@tauri-apps/api";
+  import { appWindow } from "@tauri-apps/api/window";
 </script>
 
-<svelte:window on:contextmenu|preventDefault />
+<svelte:window on:contextmenu|preventDefault={() => console.log("contextmenu")} />
 <svelte:body
   on:click={async () => {
-    await hide();
+    console.log("hide");
+    await appWindow.hide();
   }} />
+
 <div id="app">
   <slot></slot>
 </div>
@@ -48,7 +50,12 @@
     background-color: #e4e4e4;
   }
   #app {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
     width: 100vw;
     height: 100vh;
+    // pointer-events: none;
   }
 </style>

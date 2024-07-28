@@ -13,6 +13,11 @@
   "tauri": {
     "allowlist": {
       "all": false,
+      "app": {
+        "all": false,
+        "hide": true,
+        "show": true
+      },
       "fs": {
         "all": false,
         "copyFile": false,
@@ -25,6 +30,13 @@
         "renameFile": false,
         "scope": [],
         "writeFile": false
+      },
+      "shell": {
+        "all": false,
+        "execute": false,
+        "open": true,
+        "scope": [],
+        "sidecar": false
       },
       "window": {
         "all": false,
@@ -113,7 +125,7 @@
         "title": "launcher",
         "decorations": false,
         "titleBarStyle": "Overlay",
-        "skipTaskbar": false,
+        "skipTaskbar": true,
         "transparent": true
       }
     ]

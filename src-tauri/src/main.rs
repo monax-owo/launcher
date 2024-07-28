@@ -26,12 +26,19 @@ fn main() {
   //   println!("set position");
   // }
   fn set_pos(window: &Window) {
+    const OFFSET: u32 = 1;
     let monitor = window.current_monitor().unwrap().unwrap();
     let monitor_size = monitor.size();
-    window.set_size(*monitor_size).expect("Failed to set size");
-    window
-      .set_position(PhysicalPosition::new(-1, -1))
-      .expect("Failed to set position");
+    let size = [
+      monitor_size.width + (OFFSET * 2),
+      monitor_size.height + (OFFSET * 2),
+    ];
+    let size = PhysicalSize::new(size[0], size[1]);
+    let pos = PhysicalPosition::new(0 - OFFSET as i32, 0 - OFFSET as i32);
+    println!("{:?}", &size);
+    println!("{:?}", &pos);
+    window.set_size(size).expect("Failed to set size");
+    window.set_position(pos).expect("Failed to set position");
     // 0,0だとYoutubeが止まる。原因不明。ウィンドウがかぶさると動画が再生されないようになっている？
 
     println!("set position");
