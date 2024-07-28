@@ -2,8 +2,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use tauri::{
-  CustomMenuItem, LogicalPosition, Manager, PhysicalPosition, PhysicalSize, Runtime, SystemTray,
-  SystemTrayEvent, SystemTrayMenu, Window, WindowEvent,
+  CustomMenuItem, Manager, PhysicalPosition, PhysicalSize, Runtime, SystemTray, SystemTrayEvent,
+  SystemTrayMenu, Window, WindowEvent,
 };
 
 use std::os::raw::c_void;
@@ -126,22 +126,22 @@ fn exit<R: Runtime>(app: tauri::AppHandle<R>, window: tauri::Window<R>) {
   exit_0(app, window)
 }
 
-fn size(pm: &PhysicalSize<u32>, pw: &PhysicalSize<u32>) -> LogicalPosition<f64> {
-  const SCALE: f64 = 1.0;
-  let m: tauri::LogicalSize<i32> = pm.to_logical(SCALE);
-  let w: tauri::LogicalSize<i32> = pw.to_logical(SCALE);
-  let val = [m.width, m.height, w.width, w.height];
-  let default_value = || -> LogicalPosition<f64> { LogicalPosition::new(20.0, 20.0) };
+// fn size(pm: &PhysicalSize<u32>, pw: &PhysicalSize<u32>) -> LogicalPosition<f64> {
+//   const SCALE: f64 = 1.0;
+//   let m: tauri::LogicalSize<i32> = pm.to_logical(SCALE);
+//   let w: tauri::LogicalSize<i32> = pw.to_logical(SCALE);
+//   let val = [m.width, m.height, w.width, w.height];
+//   let default_value = || -> LogicalPosition<f64> { LogicalPosition::new(20.0, 20.0) };
 
-  for v in &val {
-    if *v <= 1 {
-      return default_value();
-    }
-  }
+//   for v in &val {
+//     if *v <= 1 {
+//       return default_value();
+//     }
+//   }
 
-  LogicalPosition::from([
-    (&m.width / 2) - (&w.width / 2),
-    (&m.height / 2) - (&w.height / 2),
-  ])
-}
+//   LogicalPosition::from([
+//     (&m.width / 2) - (&w.width / 2),
+//     (&m.height / 2) - (&w.height / 2),
+//   ])
+// }
 // モニター.width / 2 - ウィンドウ.width / 2

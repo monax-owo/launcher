@@ -17,8 +17,9 @@
       if (query == null) {
         cancel();
       }
-      let url = `https://www.google.com/search?q=${query?.toString()}`;
+      let url = `https://www.google.com/search?q=${encodeURIComponent(query?.toString() ?? "")}`;
       open(url);
+      cancel();
     }}>
     <input type="text" class="search-box" autocomplete="off" name="param" />
     <div class="icon">

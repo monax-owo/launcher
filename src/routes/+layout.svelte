@@ -17,11 +17,14 @@
   // Supports weights 300-700
   import "@fontsource-variable/fira-code";
   //
-  import { app, invoke, window } from "@tauri-apps/api";
   import { appWindow } from "@tauri-apps/api/window";
+  //
+  // TODO:ショートカットキーを割り当てる
+  // TODO:configファイルを作る
 </script>
 
-<svelte:window on:contextmenu|preventDefault={() => console.log("contextmenu")} />
+<svelte:window
+  on:contextmenu|preventDefault={() => console.log("contextmenu")} />
 <svelte:body
   on:click={async () => {
     console.log("hide");

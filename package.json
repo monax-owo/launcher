@@ -14,7 +14,7 @@
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
     "rust:fmt": "cd ./src-tauri && cargo fmt && cd ..",
-    "deploy-check": "pnpm format && pnpm rust:fmt && pnpm check && pnpm lint && pnpm vite:build && echo success!"
+    "deploy-check": "pnpm format && pnpm rust:fmt && pnpm check && pnpm lint && pnpm tauri:build && echo success!"
   },
   "devDependencies": {
     "@eslint/js": "^9.7.0",
