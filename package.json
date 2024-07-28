@@ -21,6 +21,7 @@
     "@sveltejs/adapter-static": "^3.0.2",
     "@sveltejs/kit": "^2.5.18",
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
+    "@tabler/icons-svelte": "~3.6.0",
     "@tauri-apps/cli": "^1.6.0",
     "@types/eslint__js": "^8.42.3",
     "@typescript-eslint/eslint-plugin": "^7.16.0",
@@ -42,8 +43,7 @@
     "typescript-eslint": "8.0.0-alpha.30",
     "unplugin-auto-import": "^0.17.8",
     "vite": "^5.3.3",
-    "zod": "^3.23.8",
-    "@tabler/icons-svelte": "3.6.0"
+    "zod": "^3.23.8"
   },
   "dependencies": {
     "@fontsource-variable/fira-code": "^5.0.18",
