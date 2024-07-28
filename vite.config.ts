@@ -18,15 +18,14 @@ export default defineConfig({
         /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
         /\.svelte$/, // .svelte
       ],
-      exclude: [/\/src\/lib\/components/],
+      exclude: [/[\\/]src[\\/]lib[\\/]components[\\/]/],
       imports: [
         "svelte",
         {
           zod: [["default", "z"]], // import z from "zod"
           [path
             .resolve(__dirname, "./src/lib/autoimport")
-            .replaceAll("\\", "/")]: ["Template", "Todo"],
-          // "$app/paths": [],
+            .replaceAll("\\", "/")]: ["Template"],
         },
       ],
     }),

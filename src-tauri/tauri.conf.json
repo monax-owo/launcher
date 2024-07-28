@@ -13,6 +13,19 @@
   "tauri": {
     "allowlist": {
       "all": false,
+      "fs": {
+        "all": false,
+        "copyFile": false,
+        "createDir": false,
+        "exists": false,
+        "readDir": false,
+        "readFile": false,
+        "removeDir": false,
+        "removeFile": false,
+        "renameFile": false,
+        "scope": [],
+        "writeFile": false
+      },
       "window": {
         "all": false,
         "center": false,
@@ -96,13 +109,12 @@
       {
         "label": "main",
         "fullscreen": false,
-        "width": 800,
-        "height": 600,
         "resizable": false,
         "title": "launcher",
         "decorations": false,
         "titleBarStyle": "Overlay",
-        "skipTaskbar": true
+        "skipTaskbar": true,
+        "transparent": true
       }
     ]
   }

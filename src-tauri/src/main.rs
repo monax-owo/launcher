@@ -2,8 +2,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use tauri::{
-  CustomMenuItem, LogicalPosition, Manager, PhysicalSize, Runtime, SystemTray, SystemTrayEvent,
-  SystemTrayMenu, Window, WindowEvent,
+  CustomMenuItem, LogicalPosition, Manager, PhysicalPosition, PhysicalSize, Runtime, SystemTray,
+  SystemTrayEvent, SystemTrayMenu, Window, WindowEvent,
 };
 
 use std::os::raw::c_void;
@@ -15,23 +15,37 @@ use windows::Win32::{
 
 fn main() {
   let builder = tauri::Builder::default();
+  // fn set_pos(window: &Window) {
+  //   let monitor = window.current_monitor().unwrap().unwrap();
+  //   let monitor_size = monitor.size();
+  //   let window_size = &window.outer_size().unwrap();
 
-  let set_pos = |window: &Window| {
+  //   window
+  //     .set_position(size(monitor_size, window_size))
+  //     .expect("Failed to resize");
+  //   println!("set position");
+  // }
+  fn set_pos(window: &Window) {
     let monitor = window.current_monitor().unwrap().unwrap();
     let monitor_size = monitor.size();
-    let window_size = &window.outer_size().unwrap();
-
+    window.set_size(*monitor_size).expect("Failed to set size");
     window
-      .set_position(size(monitor_size, window_size))
-      .expect("Failed to resize");
-    println!("set position");
-  };
+      .set_position(PhysicalPosition::new(0, 0))
+      .expect("Failed to set position");
 
+    println!("set position");
+  }
   builder
     .setup(move |app| {
       let handle = app.handle();
       let main_window = app.get_window("main").expect("Failed to get main window");
+
       set_pos(&main_window);
+
+      #[cfg(debug_assertions)]
+      {
+        main_window.open_devtools();
+      }
 
       if cfg!(target_os = "windows") {
         if let Ok(hwnd) = main_window.hwnd() {
@@ -56,10 +70,13 @@ fn main() {
         )
         .on_event(move |e| match &e {
           SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
-            "test" => println!("{id}"),
+            "test" => println!(
+              "{:?}",
+              main_window.current_monitor().unwrap().unwrap().size()
+            ),
             "show" => {
               main_window.show().expect("Failed to focus for main window");
-              main_window.set_focus().unwrap_or(());
+              main_window.set_focus().unwrap();
             }
             "quit" => {
               handle.exit(0);
@@ -91,6 +108,7 @@ fn exit_0<R: Runtime>(app: tauri::AppHandle<R>, _window: tauri::Window<R>) {
     .tray_handle()
     .destroy()
     .expect("Failed to remove tasktray icon");
+
   app.exit(0);
 }
 #[tauri::command]
@@ -104,11 +122,13 @@ fn size(pm: &PhysicalSize<u32>, pw: &PhysicalSize<u32>) -> LogicalPosition<f64> 
   let w: tauri::LogicalSize<i32> = pw.to_logical(SCALE);
   let val = [m.width, m.height, w.width, w.height];
   let default_value = || -> LogicalPosition<f64> { LogicalPosition::new(20.0, 20.0) };
+
   for v in &val {
     if *v <= 1 {
       return default_value();
     }
   }
+
   LogicalPosition::from([
     (&m.width / 2) - (&w.width / 2),
     (&m.height / 2) - (&w.height / 2),

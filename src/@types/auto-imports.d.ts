@@ -6,7 +6,7 @@
 export {}
 declare global {
   const Template: typeof import('../lib/autoimport')['Template']
-  const Todo: typeof import('../lib/autoimport')['Todo']
+  const Todo: typeof import('../../.[/]src[/]lib[/]autoimport')['Todo']
   const afterUpdate: typeof import('svelte')['afterUpdate']
   const beforeUpdate: typeof import('svelte')['beforeUpdate']
   const createEventDispatcher: typeof import('svelte')['createEventDispatcher']
