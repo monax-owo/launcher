@@ -71,13 +71,13 @@ fn main() {
       }
 
       let _key = ["Ctrl+L", "Alt+P"];
+      let tray_menu = SystemTrayMenu::new()
+        .add_item(CustomMenuItem::new("test", "Title"))
+        .add_item(CustomMenuItem::new("show", "Show window"))
+        .add_item(CustomMenuItem::new("quit", "Quit"));
+
       let _tray_handle = SystemTray::new()
-        .with_menu(
-          SystemTrayMenu::new()
-            .add_item(CustomMenuItem::new("test", "Title"))
-            .add_item(CustomMenuItem::new("show", "Show window"))
-            .add_item(CustomMenuItem::new("quit", "Quit")),
-        )
+        .with_menu(tray_menu)
         .on_event(move |e| match &e {
           SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
             "test" => println!(

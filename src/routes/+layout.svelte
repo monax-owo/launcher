@@ -1,4 +1,4 @@
-<script lang="ts">
+<script async script lang="ts">
   // scss
   import "$lib/global.scss";
   import "$lib/util.scss";
@@ -18,8 +18,22 @@
   import "@fontsource-variable/fira-code";
   //
   import { appWindow } from "@tauri-apps/api/window";
+  import {
+    register,
+    registerAll,
+    unregisterAll,
+  } from "@tauri-apps/api/globalShortcut";
+  import { onMount } from "svelte";
   //
   // TODO:ショートカットキーを割り当てる
+  register("Ctrl+E", () => console.log("greet!"));
+  onMount(() => {
+    return () => {
+      unregisterAll();
+      console.log("a");
+    };
+  });
+  // unregisterAll();
   // TODO:configファイルを作る
 </script>
 

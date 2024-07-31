@@ -17,13 +17,8 @@ tauri-build = { version = "1.5.3", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.7.0", features = [ "shell-open", "app-show", "app-hide",
-	"window-unmaximize",
-	"window-unminimize",
-	"window-minimize",
+tauri = { version = "1.7.0", features = [ "window-show", "global-shortcut-all", "shell-open", "app-show", "app-hide",
 	"window-hide",
-	"window-close",
-	"window-maximize",
 	"system-tray",
 ] }
 windows = { version = "0.52.0", features = [

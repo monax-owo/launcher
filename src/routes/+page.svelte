@@ -5,25 +5,30 @@
   import { enhance } from "$app/forms";
   import IconSearch from "@tabler/icons-svelte/IconSearch.svelte";
   import { open } from "@tauri-apps/api/shell";
+  import type { SubmitFunction } from "@sveltejs/kit";
   let stroke = 2;
+  const opener: SubmitFunction = ({ formData, cancel }) => {
+    let query = formData.get("param");
+    if (query == null) {
+      cancel();
+      return;
+    }
+    let param = encodeURIComponent(query.toString().trim());
+    if (param === "") {
+      cancel();
+      return;
+    }
+    let url = `https://www.google.com/search?q=${param}`;
+    open(url);
+    cancel();
+  };
 </script>
 
 <Template>
-  <form
-    class="search"
-    method="post"
-    use:enhance={({ formData, cancel }) => {
-      let query = formData.get("param");
-      if (query == null) {
-        cancel();
-      }
-      let url = `https://www.google.com/search?q=${encodeURIComponent(query?.toString() ?? "")}`;
-      open(url);
-      cancel();
-    }}>
+  <form class="search" method="post" use:enhance={opener}>
     <input type="text" class="search-box" autocomplete="off" name="param" />
     <div class="icon">
-      <button type="button"><IconSearch {stroke} /></button>
+      <button type="submit"><IconSearch {stroke} /></button>
     </div>
   </form>
 </Template>

@@ -31,6 +31,9 @@
         "scope": [],
         "writeFile": false
       },
+      "globalShortcut": {
+        "all": true
+      },
       "shell": {
         "all": false,
         "execute": false,
@@ -41,11 +44,11 @@
       "window": {
         "all": false,
         "center": false,
-        "close": true,
+        "close": false,
         "create": false,
         "hide": true,
-        "maximize": true,
-        "minimize": true,
+        "maximize": false,
+        "minimize": false,
         "print": false,
         "requestUserAttention": false,
         "setAlwaysOnTop": false,
@@ -69,10 +72,10 @@
         "setSize": false,
         "setSkipTaskbar": false,
         "setTitle": false,
-        "show": false,
+        "show": true,
         "startDragging": false,
-        "unmaximize": true,
-        "unminimize": true
+        "unmaximize": false,
+        "unminimize": false
       }
     },
     "bundle": {
