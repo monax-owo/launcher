@@ -26,7 +26,7 @@
   import { onMount } from "svelte";
   //
   // TODO:ショートカットキーを割り当てる
-  register("Ctrl+E", () => console.log("greet!"));
+  register("Alt+E", () => console.log("greet!"));
   onMount(() => {
     return () => {
       unregisterAll();

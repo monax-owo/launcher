@@ -6,14 +6,17 @@
   import IconSearch from "@tabler/icons-svelte/IconSearch.svelte";
   import { open } from "@tauri-apps/api/shell";
   import type { SubmitFunction } from "@sveltejs/kit";
-  let stroke = 2;
-  const opener: SubmitFunction = ({ formData, cancel }) => {
-    let query = formData.get("param");
-    if (query == null) {
-      cancel();
-      return;
-    }
-    let param = encodeURIComponent(query.toString().trim());
+  import Result from "./Result.svelte";
+  import { base } from "$app/paths";
+
+  let stroke: number = 2;
+
+  let searhText: string = "";
+
+  let results = ["aaa", "aaaaannn", "uuuu"];
+
+  const opener: SubmitFunction = ({ cancel }) => {
+    let param = encodeURIComponent(searhText.trim());
     if (param === "") {
       cancel();
       return;
@@ -24,45 +27,78 @@
   };
 </script>
 
+<!--  -->
 <Template>
-  <form class="search" method="post" use:enhance={opener}>
-    <input type="text" class="search-box" autocomplete="off" name="param" />
-    <div class="icon">
-      <button type="submit"><IconSearch {stroke} /></button>
+  <div class="search">
+    <form class="search-input" method="post" use:enhance={opener}>
+      <input
+        autocomplete="off"
+        bind:value={searhText}
+        class="search-box"
+        type="text"
+        name="param" />
+      <div class="icon">
+        <button type="submit"><IconSearch {stroke} /></button>
+      </div>
+    </form>
+    <div>
+      <ul class="search-results">
+        <li>
+          <a href="{base}/dev/test/suggest">suggest</a>
+        </li>
+        {#each results as result, index}
+          <li><Result {index}>{result}</Result></li>
+        {/each}
+      </ul>
     </div>
-  </form>
+  </div>
 </Template>
 
 <style lang="scss">
-  // :global(.Template) {
-  // display: flex;
-  // align-content: center;
-  // justify-content: center;
-  // }
+  :global(:root) {
+    --search-height: 2rem;
+    --search-radius: calc(var(--search-height) / 4);
+  }
   .search {
-    display: flex;
-    justify-content: space-between;
-    align-self: center;
-    border: solid white 1px;
-    border-radius: 2rem;
+    box-sizing: content-box;
+    border: solid var(--b-bg) 1px;
+    border-radius: var(--search-radius);
     background-color: var(--bg);
     padding: 0 0;
-    padding-left: 1rem;
     width: 14rem;
-    height: 2rem;
-    // overflow: hidden;
     color: var(--text);
+    &-input {
+      display: flex;
+      justify-content: space-between;
+      align-self: center;
+      padding-left: 0.6rem;
+      height: var(--search-height);
+    }
+    &-box {
+      display: inline-block;
+      outline: none;
+      border: none;
+      background-color: inherit;
+      padding: 0;
+      width: 100%;
+      color: inherit;
+      font-size: 1rem;
+    }
+    &-results {
+      display: block;
+      margin: 0;
+      background: inherit;
+      padding: 0 0.6rem;
+      list-style: none;
+      & :first-child {
+        display: block;
+        border-top: 1px solid;
+        // border-style: solid;
+        border-color: var(--b-bg);
+      }
+    }
   }
-  .search-box {
-    display: inline-block;
-    outline: none;
-    border: none;
-    background-color: inherit;
-    padding: 0;
-    width: 100%;
-    color: inherit;
-    font-size: 1rem;
-  }
+
   .icon {
     display: inline-block;
     align-self: center;
