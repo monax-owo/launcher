@@ -15,35 +15,13 @@
   class Google {
     public static getSuggest(text: string): Promise<any> {
       const res = (async () =>
-        await fetch(url(text), { method: "get", mode: "no-cors" })
-          .then(async (res) => {
-            const ct = res.headers.get("content-type");
-            const {
-              parameters: { charset },
-            } = parse(ct || "text/plain");
-            await res.text().then((v) => console.log(v));
-            const decoder = new TextDecoder("utf-8");
-            const buf = await res.arrayBuffer();
-            const text = decoder.decode(buf);
-            return text;
-          })
-          .then((text) => JSON.parse(text)))();
+        await fetch(url(text), { method: "get", mode: "no-cors" }).then(
+          async (res) => await res.text()
+        ))();
       return res;
     }
   }
-  let result: any = "def";
-  onMount(() => {
-    (async () =>
-      Google.getSuggest("sample").then(
-        (v) => {
-          result = v[1];
-          console.log(v);
-        },
-        (v) => {
-          console.error("error", v);
-        }
-      ))();
-  });
+  let result: string = await Google.getSuggest("ssssssss");
 </script>
 
 <Template>
