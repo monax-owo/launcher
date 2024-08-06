@@ -26,13 +26,13 @@
   import { onMount } from "svelte";
   //
   // TODO:ショートカットキーを割り当てる
-  register("Alt+E", () => console.log("greet!"));
-  onMount(() => {
-    return () => {
-      unregisterAll();
-      console.log("a");
-    };
-  });
+  // register("Alt+E", () => console.log("greet!"));
+  // onMount(() => {
+  //   return () => {
+  //     unregisterAll();
+  //     console.log("a");
+  //   };
+  // });
   // unregisterAll();
   // TODO:configファイルを作る
 </script>

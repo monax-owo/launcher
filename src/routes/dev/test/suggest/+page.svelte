@@ -1,32 +1,55 @@
-<script lang="ts">
+<script lang="ts" async>
   import { Template } from "$lib/autoimport";
-  // import { fetch } from "@tauri-apps/api/http";
   import { Suggest } from "$lib/suggest/suggest";
   import { parse } from "fast-content-type-parse";
-  let location = "jp";
-  const url = (text: string): string =>
-    `https://www.google.com/complete/search?gl=${location}&q=${encodeURIComponent(text)}&output=toolbar` +
-    "&" +
-    obj2search({ client: "chrome" });
-  const obj2search = (obj: { [x: string]: any }) =>
-    Object.keys(obj)
-      .map((key) => `${key}=${obj[key]}`)
-      .join("&");
-  class Google {
-    public static getSuggest(text: string): Promise<any> {
-      const res = (async () =>
-        await fetch(url(text), { method: "get", mode: "no-cors" }).then(
-          async (res) => await res.text()
-        ))();
-      return res;
-    }
+
+  {
+    // # できません
+    // # バックエンドでやります
+    // let location = "jp";
+    // const url = (text: string) =>
+    //   `https://suggestqueries.google.com/complete/search?output=toolbar&client=chrome&hl=${location}&q=${encodeURIComponent(text)}`;
+    // const init: RequestInit = {
+    //   mode: "cors",
+    //   headers: {
+    //     referer: "https://m.youtube.com/?app=m&persist_app=1",
+    //     credentials: "omit",
+    //   },
+    // };
+    // class Google {
+    //   public static async getSuggest(text: string) {
+    //     const res = await fetch(url(text), init).then(async (res) => {
+    //       // const ct = res.headers.get("content-type");
+    //       // const {
+    //       //   parameters: { charset },
+    //       // } = parse(ct || "text/plain");
+    //       // const dec = new TextDecoder(charset);
+    //       // const buf = await res.arrayBuffer();
+    //       // const text = dec.decode(buf);
+    //       // return text;
+    //       // return JSON.parse(`{${await res}}`);
+    //       return res;
+    //     });
+    //     return res;
+    //   }
+    // }
+    // (async () => {
+    //   Google.getSuggest("a").then((v) => {
+    //     console.log(v);
+    //   });
+    //   await fetch(
+    //     "https://suggestqueries.google.com/complete/search?output=toolbar&client=gws-wiz-serp&hl=jp&q=a",
+    //     { mode: "no-cors" }
+    //   ).then(async (v) => {
+    //     console.log(v);
+    //   });
+    // })();
   }
-  let result: string = await Google.getSuggest("ssssssss");
 </script>
 
 <Template>
   <div>
-    {result}
+    <!-- {result} -->
   </div>
   <a href={url("aaaaa")} target="_blank" rel="noopener noreferrer">test</a>
 </Template>

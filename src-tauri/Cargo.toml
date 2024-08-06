@@ -17,7 +17,7 @@ tauri-build = { version = "1.5.3", features = [] }
 [dependencies]
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.7.0", features = [ "http-request", "window-show", "global-shortcut-all", "shell-open", "app-show", "app-hide",
+tauri = { version = "1.7.0", features = [ "http-all", "window-show", "global-shortcut-all", "shell-open", "app-show", "app-hide",
 	"window-hide",
 	"system-tray",
 ] }
@@ -26,6 +26,8 @@ windows = { version = "0.52.0", features = [
 	"Win32_Graphics",
 	"Win32_Graphics_Dwm",
 ] }
+reqwest = "0.11.18"
+tokio = "1.29.1"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem and the built-in dev server is disabled.

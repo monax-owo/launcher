@@ -35,7 +35,7 @@ export default defineConfig({
       plugins: [autoprefixer()],
     },
   },
-  build: {
+  esbuild: {
     target: "esnext",
   },
 });

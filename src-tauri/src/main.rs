@@ -108,7 +108,7 @@ fn main() {
       // WindowEvent::ScaleFactorChanged { .. } => set_pos(&e.window()),
       _ => (),
     })
-    .invoke_handler(tauri::generate_handler![exit])
+    .invoke_handler(tauri::generate_handler![exit, suggest])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
@@ -121,6 +121,7 @@ fn exit_0<R: Runtime>(app: tauri::AppHandle<R>, _window: tauri::Window<R>) {
 
   app.exit(0);
 }
+
 #[tauri::command]
 fn exit<R: Runtime>(app: tauri::AppHandle<R>, window: tauri::Window<R>) {
   exit_0(app, window)
@@ -145,3 +146,26 @@ fn exit<R: Runtime>(app: tauri::AppHandle<R>, window: tauri::Window<R>) {
 //   ])
 // }
 // モニター.width / 2 - ウィンドウ.width / 2
+
+#[tauri::command]
+async fn suggest(service: &str, query: &str) -> Result<String, ()> {
+  Ok(suggest_(service, query).await.unwrap())
+}
+
+async fn suggest_(service: &str, query: &str) -> Result<String, reqwest::Error> {
+  let res: String;
+  match service {
+    "google" => {
+      res = reqwest::get(
+        "https://suggestqueries.google.com/complete/search?output=toolbar&client=chrome&hl=jp&q="
+          .to_string()
+          + query,
+      )
+      .await?
+      .text()
+      .await?
+    }
+    _ => res = String::from(""),
+  }
+  Ok(res)
+}
