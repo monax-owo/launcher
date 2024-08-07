@@ -44,7 +44,7 @@
     <div>
       <ul class="search-results">
         <li>
-          <a href="{base}/dev/test/suggest">suggest</a>
+          <a href="{base}/dev/test">test</a>
         </li>
         {#each results as result, index}
           <li><Result {index}>{result}</Result></li>

@@ -161,11 +161,14 @@ async fn suggest_(service: &str, query: &str) -> Result<String, reqwest::Error> 
           .to_string()
           + query,
       )
-      .await?
+      .await
+      .unwrap()
       .text()
-      .await?
+      .await
+      .unwrap();
     }
     _ => res = String::from(""),
   }
+  println!("{:}", &res);
   Ok(res)
 }
