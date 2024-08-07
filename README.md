@@ -6,6 +6,9 @@
   </a>
 </div>
 
+> [!NOTE]
+> Someday I will rename this project Lune.
+
 - Tauri
 - Rust
 - Typescript
