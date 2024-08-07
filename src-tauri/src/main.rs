@@ -1,12 +1,14 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod suggest;
+
+use std::os::raw::c_void;
 use tauri::{
   CustomMenuItem, Manager, PhysicalPosition, PhysicalSize, Runtime, SystemTray, SystemTrayEvent,
   SystemTrayMenu, Window, WindowEvent,
 };
 
-use std::os::raw::c_void;
 #[cfg(target_os = "windows")]
 use windows::Win32::{
   Foundation::{BOOL, HWND},
@@ -149,26 +151,5 @@ fn exit<R: Runtime>(app: tauri::AppHandle<R>, window: tauri::Window<R>) {
 
 #[tauri::command]
 async fn suggest(service: &str, query: &str) -> Result<String, ()> {
-  Ok(suggest_(service, query).await.unwrap())
-}
-
-async fn suggest_(service: &str, query: &str) -> Result<String, reqwest::Error> {
-  let res: String;
-  match service {
-    "google" => {
-      res = reqwest::get(
-        "https://suggestqueries.google.com/complete/search?output=toolbar&client=chrome&hl=jp&q="
-          .to_string()
-          + query,
-      )
-      .await
-      .unwrap()
-      .text()
-      .await
-      .unwrap();
-    }
-    _ => res = String::from(""),
-  }
-  println!("{:}", &res);
-  Ok(res)
+  Ok(suggest::suggest(service, query).await.unwrap())
 }
