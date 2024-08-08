@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Template } from "$lib/autoimport";
   import suggest from "$lib/suggest";
+  throw new Error("boom");
   let res: string[];
   let q = "test";
   const handle = async () => {

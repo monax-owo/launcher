@@ -44,6 +44,9 @@
     <div>
       <ul class="search-results">
         <li>
+          <a href="{base}/dev">dev</a>
+        </li>
+        <li>
           <a href="{base}/dev/test">test</a>
         </li>
         {#each results as result, index}

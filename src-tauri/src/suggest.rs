@@ -5,7 +5,7 @@ use serde_json::{from_str, Value};
 pub async fn suggest(service: &str, query: &str) -> anyhow::Result<Vec<String>> {
   let res = match service {
     "google" => google(&query).await?,
-    
+
     _ => bail!("missing service"),
   };
   println!("{:?}", &res);
