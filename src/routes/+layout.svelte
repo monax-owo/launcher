@@ -18,11 +18,7 @@
   import "@fontsource-variable/fira-code";
   //
   import { appWindow } from "@tauri-apps/api/window";
-  import {
-    register,
-    registerAll,
-    unregisterAll,
-  } from "@tauri-apps/api/globalShortcut";
+  import { register, registerAll, unregisterAll } from "@tauri-apps/api/globalShortcut";
   import { onMount } from "svelte";
   //
   // TODO:ショートカットキーを割り当てる
@@ -37,8 +33,7 @@
   // TODO:configファイルを作る
 </script>
 
-<svelte:window
-  on:contextmenu|preventDefault={() => console.log("contextmenu")} />
+<svelte:window on:contextmenu|preventDefault={() => console.log("contextmenu")} />
 <svelte:body
   on:click={async () => {
     console.log("hide");

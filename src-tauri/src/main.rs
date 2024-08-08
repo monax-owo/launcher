@@ -150,6 +150,6 @@ fn exit<R: Runtime>(app: tauri::AppHandle<R>, window: tauri::Window<R>) {
 // モニター.width / 2 - ウィンドウ.width / 2
 
 #[tauri::command]
-async fn suggest(service: &str, query: &str) -> Result<String, ()> {
+async fn suggest(service: &str, query: &str) -> Result<Vec<String>, ()> {
   Ok(suggest::suggest(service, query).await.unwrap())
 }
