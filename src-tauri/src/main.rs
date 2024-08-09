@@ -3,6 +3,7 @@
 
 mod suggest;
 
+use reqwest::Client;
 use std::os::raw::c_void;
 use tauri::{
   CustomMenuItem, Manager, PhysicalPosition, PhysicalSize, Runtime, SystemTray, SystemTrayEvent,
@@ -27,24 +28,8 @@ fn main() {
   //     .expect("Failed to resize");
   //   println!("set position");
   // }
-  fn set_pos(window: &Window) {
-    const OFFSET: u32 = 1;
-    let monitor = window.current_monitor().unwrap().unwrap();
-    let monitor_size = monitor.size();
-    let size = [
-      monitor_size.width + (OFFSET * 2),
-      monitor_size.height + (OFFSET * 2),
-    ];
-    let size = PhysicalSize::new(size[0], size[1]);
-    let pos = PhysicalPosition::new(0 - OFFSET as i32, 0 - OFFSET as i32);
-    println!("{:?}", &size);
-    println!("{:?}", &pos);
-    window.set_size(size).expect("Failed to set size");
-    window.set_position(pos).expect("Failed to set position");
-    // 0,0だとYoutubeが止まる。原因不明。ウィンドウがかぶさると動画が再生されないようになっている？
 
-    println!("set position");
-  }
+  let client = Client::new();
   builder
     .setup(move |app| {
       let handle = app.handle();
@@ -110,9 +95,29 @@ fn main() {
       // WindowEvent::ScaleFactorChanged { .. } => set_pos(&e.window()),
       _ => (),
     })
+    .manage(client)
     .invoke_handler(tauri::generate_handler![exit, suggest])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
+}
+
+fn set_pos(window: &Window) {
+  const OFFSET: u32 = 1;
+  let monitor = window.current_monitor().unwrap().unwrap();
+  let monitor_size = monitor.size();
+  let size = [
+    monitor_size.width + (OFFSET * 2),
+    monitor_size.height + (OFFSET * 2),
+  ];
+  let size = PhysicalSize::new(size[0], size[1]);
+  let pos = PhysicalPosition::new(0 - OFFSET as i32, 0 - OFFSET as i32);
+  println!("{:?}", &size);
+  println!("{:?}", &pos);
+  window.set_size(size).expect("Failed to set size");
+  window.set_position(pos).expect("Failed to set position");
+  // 0,0だとYoutubeが止まる。原因不明。ウィンドウがかぶさると動画が再生されないようになっている？
+
+  println!("set position");
 }
 
 fn exit_0<R: Runtime>(app: tauri::AppHandle<R>, _window: tauri::Window<R>) {
@@ -120,7 +125,6 @@ fn exit_0<R: Runtime>(app: tauri::AppHandle<R>, _window: tauri::Window<R>) {
     .tray_handle()
     .destroy()
     .expect("Failed to remove tasktray icon");
-
   app.exit(0);
 }
 
@@ -150,6 +154,12 @@ fn exit<R: Runtime>(app: tauri::AppHandle<R>, window: tauri::Window<R>) {
 // モニター.width / 2 - ウィンドウ.width / 2
 
 #[tauri::command]
-async fn suggest(service: &str, query: &str) -> Result<Vec<String>, ()> {
-  Ok(suggest::suggest(service, query).await.unwrap())
+async fn suggest<R: Runtime>(
+  app: tauri::AppHandle<R>,
+  _window: tauri::Window<R>,
+  service: &str,
+  query: &str,
+) -> Result<Vec<String>, ()> {
+  let client = app.state::<Client>().inner();
+  Ok(suggest::suggest(service, query, client).await.unwrap())
 }

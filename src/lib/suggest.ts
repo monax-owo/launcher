@@ -1,10 +1,8 @@
 import { invoke } from "@tauri-apps/api/tauri";
+export const req = async (service: string, text: string): Promise<string[]> => {
+  const query = text.trim();
+  if (query == "") throw new Error("text is empty");
+  return await invoke<string[]>("suggest", { service, query });
+};
 
-namespace suggest {
-  export const req = async (service: string, query: string): Promise<string[]> =>
-    invoke<string[]>("suggest", { service, query }).then((v) => {
-      console.log(v);
-      return v;
-    });
-}
-export default suggest;
+export default { req };

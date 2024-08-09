@@ -7,13 +7,19 @@
   import { open } from "@tauri-apps/api/shell";
   import type { SubmitFunction } from "@sveltejs/kit";
   import Result from "./Result.svelte";
-  import { base } from "$app/paths";
+  import suggest from "$lib/suggest";
 
   let stroke: number = 2;
 
   let searhText: string = "";
+  let results: string[] = [];
 
-  let results = ["aaa", "aaaaannn", "uuuu"];
+  $: (async () => {
+    if (searhText !== "") {
+      results = await suggest.req("google", searhText);
+      if (searhText == "") results = [];
+    }
+  })();
 
   const opener: SubmitFunction = ({ cancel }) => {
     let param = encodeURIComponent(searhText.trim());
@@ -43,14 +49,8 @@
     </form>
     <div>
       <ul class="search-results">
-        <li>
-          <a href="{base}/dev">dev</a>
-        </li>
-        <li>
-          <a href="{base}/dev/test">test</a>
-        </li>
         {#each results as result, index}
-          <li><Result {index}>{result}</Result></li>
+          <li><Result index={++index}>{result}</Result></li>
         {/each}
       </ul>
     </div>
