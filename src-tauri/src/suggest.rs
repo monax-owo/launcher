@@ -4,6 +4,7 @@ use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use serde_json::{from_str, Value};
 
+const RESULT_LENGTH: usize = 9;
 pub async fn suggest(service: &str, query: &str, client: &Client) -> anyhow::Result<Vec<String>> {
   let res = match service {
     "google" => google(&query, client).await?,
@@ -37,5 +38,5 @@ async fn google(query: &str, client: &Client) -> anyhow::Result<Vec<String>> {
   );
   let value = from_str::<Google>(text.as_str())?;
   let array = value.result.1;
-  Ok(array[..array.len().min(8)].to_vec())
+  Ok(array[..array.len().min(RESULT_LENGTH)].to_vec())
 }

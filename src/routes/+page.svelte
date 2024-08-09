@@ -1,7 +1,7 @@
 <script lang="ts">
   // import type { PageData } from './$types';
   // export let data: PageData;
-  import { Template } from "$lib/autoimport";
+  import { Template } from "$lib/imports";
   import { enhance } from "$app/forms";
   import IconSearch from "@tabler/icons-svelte/IconSearch.svelte";
   import { open } from "@tauri-apps/api/shell";
@@ -22,6 +22,9 @@
     if (trim !== "" && trim !== history) results = await suggest.req("google", searhText);
     if (searhText == "") results = [];
     history = trim;
+    ifDev(() => {
+      results = ["aaaaaaaaaaaaa", "afefsfsfsf", "ssssssssssssssss", "aweadawd"];
+    });
   })();
 
   const opener: SubmitFunction = ({ cancel }) => {
@@ -95,9 +98,9 @@
     }
     &-results {
       display: block;
-      margin: 0;
+      margin: 0.4rem 0.6rem;
       background: inherit;
-      padding: 0 0.6rem;
+      padding: 0;
       list-style: none;
       & :first-child {
         display: block;

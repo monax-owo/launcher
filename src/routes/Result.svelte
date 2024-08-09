@@ -4,7 +4,9 @@
 </script>
 
 <div class="Result">
-  <slot></slot>
+  <span>
+    <slot></slot>
+  </span>
   <div class="code">
     {#if shortcut()}
       <kbd>{index}</kbd>
@@ -17,5 +19,10 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    & span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 </style>

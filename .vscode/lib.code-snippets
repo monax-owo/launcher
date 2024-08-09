@@ -3,7 +3,7 @@
     "prefix": "!m",
     "body": [
       "<script lang=\"ts\">",
-      "\timport { Template } from \"\\$lib/autoimport\";",
+      "\timport { Template } from \"\\$lib/auto-imports\";",
       "\t${1://}",
       "</script>",
       "",

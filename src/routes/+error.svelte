@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Template } from "$lib/autoimport";
+  import { Template } from "$lib/imports";
   import { page } from "$app/stores";
 </script>
 

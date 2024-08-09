@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Template } from "$lib/autoimport";
+  import { Template } from "$lib/imports";
   import suggest from "$lib/suggest";
   throw new Error("boom");
   let res: string[];
