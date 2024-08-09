@@ -106,11 +106,12 @@ fn set_pos(window: &Window) {
   let monitor = window.current_monitor().unwrap().unwrap();
   let monitor_size = monitor.size();
   let size = [
-    monitor_size.width + (OFFSET * 2),
-    monitor_size.height + (OFFSET * 2),
+    monitor_size.width - (OFFSET * 2),
+    monitor_size.height - (OFFSET * 2),
   ];
   let size = PhysicalSize::new(size[0], size[1]);
-  let pos = PhysicalPosition::new(0 - OFFSET as i32, 0 - OFFSET as i32);
+  // let pos = PhysicalPosition::new(0 - OFFSET as i32, 0 - OFFSET as i32);
+  let pos = PhysicalPosition::new(OFFSET, OFFSET);
   println!("{:?}", &size);
   println!("{:?}", &pos);
   window.set_size(size).expect("Failed to set size");

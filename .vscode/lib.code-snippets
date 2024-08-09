@@ -18,6 +18,6 @@
   },
   "util_scss": {
     "prefix": "!mixin",
-    "body": ["@use \"\\$lib/global.scss\" as *;"],
+    "body": ["@use \"\\$lib/style/global.scss\" as *;"],
   },
 }

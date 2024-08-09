@@ -2,15 +2,15 @@
 
 // @use "style/_";
 
-@forward "style/_variable";
-@forward "style/_function";
-@forward "style/_mixin";
-@forward "style/_theme";
+@forward "_variable";
+@forward "_function";
+@forward "_mixin";
+@forward "_theme";
 
-@use "style/_variable" as *;
-@use "style/_function" as *;
-@use "style/_mixin" as *;
-@use "style/_theme" as *;
+@use "_variable" as *;
+@use "_function" as *;
+@use "_mixin" as *;
+@use "_theme" as *;
 
 // @use "_variable";
 // @use "_function";

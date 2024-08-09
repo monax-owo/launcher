@@ -1,8 +1,0 @@
-@use "style/_variable" as *;
-@use "style/_function" as *;
-@use "style/_mixin" as *;
-@use "style/_theme" as *;
-
-.shadow-1 {
-  @include shadow-1(var(--blur));
-}

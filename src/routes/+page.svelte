@@ -11,14 +11,17 @@
 
   let stroke: number = 2;
 
+  // suggest
+  let showResults = true;
   let searhText: string = "";
   let results: string[] = [];
+  let history = "";
 
   $: (async () => {
-    if (searhText !== "") {
-      results = await suggest.req("google", searhText);
-      if (searhText == "") results = [];
-    }
+    let trim = searhText.trim();
+    if (trim !== "" && trim !== history) results = await suggest.req("google", searhText);
+    if (searhText == "") results = [];
+    history = trim;
   })();
 
   const opener: SubmitFunction = ({ cancel }) => {
@@ -31,6 +34,7 @@
     open(url);
     cancel();
   };
+  // suggest
 </script>
 
 <!--  -->
@@ -48,11 +52,13 @@
       </div>
     </form>
     <div>
-      <ul class="search-results">
-        {#each results as result, index}
-          <li><Result index={++index}>{result}</Result></li>
-        {/each}
-      </ul>
+      {#if showResults}
+        <ul class="search-results">
+          {#each results as result, index}
+            <li><Result index={++index}>{result}</Result></li>
+          {/each}
+        </ul>
+      {/if}
     </div>
   </div>
 </Template>
