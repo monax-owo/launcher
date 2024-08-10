@@ -6,8 +6,8 @@
   import IconSearch from "@tabler/icons-svelte/IconSearch.svelte";
   import { open } from "@tauri-apps/api/shell";
   import type { SubmitFunction } from "@sveltejs/kit";
-  import Result from "./Result.svelte";
   import suggest from "$lib/suggest";
+  import SearchResult from "./SearchResult.svelte";
 
   let stroke: number = 2;
 
@@ -58,11 +58,7 @@
     </form>
     <div>
       {#if showResults}
-        <ul class="search-results">
-          {#each results as result, index}
-            <Result index={++index}>{result}</Result>
-          {/each}
-        </ul>
+        <SearchResult {results}></SearchResult>
       {/if}
     </div>
   </div>
@@ -97,17 +93,6 @@
       width: 100%;
       color: inherit;
       font-size: 1rem;
-    }
-    &-results {
-      display: block;
-      margin: 0 0.4rem;
-      background: inherit;
-      list-style: none;
-      // Only when a child element
-      &:global(:has(> li)) {
-        border-top: solid var(--b-bg) 1px;
-        padding: 0.2rem 0;
-      }
     }
   }
 
