@@ -34,11 +34,6 @@
       "globalShortcut": {
         "all": true
       },
-      "http": {
-        "all": true,
-        "request": false,
-        "scope": []
-      },
       "shell": {
         "all": false,
         "execute": false,
