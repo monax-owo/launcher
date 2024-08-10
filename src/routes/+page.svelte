@@ -22,8 +22,9 @@
     if (trim !== "" && trim !== ahead) results = await req("google", searchText);
     if (searchText == "") results = [];
     ahead = trim;
-    ifThen(true, () => {
-      results = ["aaaaaaaaaaaaa", "afefsfsfsf", "ssssssssssssssss", "aweadawd"];
+    // TODO: run only when tarui dev
+    ifThen(false, () => {
+      results = ["abc", "abcマート", "ssssssssssssssss", "aweadawd"];
     });
   })();
 
