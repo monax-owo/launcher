@@ -18,8 +18,8 @@
   import "@fontsource-variable/fira-code";
   //
   import { appWindow } from "@tauri-apps/api/window";
-  import { register, registerAll, unregisterAll } from "@tauri-apps/api/globalShortcut";
-  import { onMount } from "svelte";
+  // import { register, registerAll, unregisterAll } from "@tauri-apps/api/globalShortcut";
+  // import { onMount } from "svelte";
   //
   // TODO:ショートカットキーを割り当てる
   // register("Alt+E", () => console.log("greet!"));
@@ -56,6 +56,9 @@
     scrollbar-gutter: auto;
     scrollbar-width: thin;
     user-select: none;
+  }
+  :global(kbd, code) {
+    font-family: "Fira Code Variable", monospace;
   }
   *::-webkit-scrollbar-track {
     border-radius: 1px;

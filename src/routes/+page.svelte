@@ -8,27 +8,29 @@
   import type { SubmitFunction } from "@sveltejs/kit";
   import Result from "./Result.svelte";
   import suggest from "$lib/suggest";
+  import { ifThen } from "$lib/auto-imports";
 
   let stroke: number = 2;
 
   // suggest
   let showResults = true;
-  let searhText: string = "";
+  let searchInput: HTMLInputElement;
+  let searchText: string = "";
   let results: string[] = [];
-  let history = "";
+  let ahead = "";
 
   $: (async () => {
-    let trim = searhText.trim();
-    if (trim !== "" && trim !== history) results = await suggest.req("google", searhText);
-    if (searhText == "") results = [];
-    history = trim;
-    ifDev(() => {
+    let trim = searchText.trim();
+    if (trim !== "" && trim !== ahead) results = await suggest.req("google", searchText);
+    if (searchText == "") results = [];
+    ahead = trim;
+    ifThen(true, () => {
       results = ["aaaaaaaaaaaaa", "afefsfsfsf", "ssssssssssssssss", "aweadawd"];
     });
   })();
 
   const opener: SubmitFunction = ({ cancel }) => {
-    let param = encodeURIComponent(searhText.trim());
+    let param = encodeURIComponent(searchText.trim());
     if (param === "") {
       cancel();
       return;
@@ -46,7 +48,8 @@
     <form class="search-input" method="post" use:enhance={opener}>
       <input
         autocomplete="off"
-        bind:value={searhText}
+        bind:this={searchInput}
+        bind:value={searchText}
         class="search-box"
         type="text"
         name="param" />
@@ -98,15 +101,13 @@
     }
     &-results {
       display: block;
-      margin: 0.4rem 0.6rem;
+      margin: 0 0.4rem;
       background: inherit;
-      padding: 0;
       list-style: none;
-      & :first-child {
-        display: block;
-        border-top: 1px solid;
-        // border-style: solid;
-        border-color: var(--b-bg);
+      // Only when a child element
+      &:has(> li) {
+        border-top: solid var(--b-bg) 1px;
+        padding: 0.2rem 0;
       }
     }
   }

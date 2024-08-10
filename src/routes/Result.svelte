@@ -3,8 +3,9 @@
   let shortcut = (): boolean => index >= 0;
 </script>
 
+<!-- TODO:クリックできるようにする -->
 <div class="Result">
-  <span>
+  <span on:click>
     <slot></slot>
   </span>
   <div class="code">
@@ -19,10 +20,17 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    height: 1.6rem;
     & span {
+      margin: 0 0.4rem;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+    & .code {
+      display: flex;
+      justify-content: center;
+      width: 1.6rem;
     }
   }
 </style>

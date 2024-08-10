@@ -7,10 +7,6 @@ const todo = () => {
   throw new Error("--------TODO--------");
 };
 
-const ifDev = <T = void>(fn: () => T): T => {
-  return ifThen(dev, fn);
-};
-
 const ifThen = <T = void>(condition: boolean, fn: () => T): T => {
   if (condition) {
     return fn();
@@ -19,4 +15,8 @@ const ifThen = <T = void>(condition: boolean, fn: () => T): T => {
   }
 };
 
-export { $, $$, todo, ifDev, ifThen };
+const ifDev = <T = void>(fn: () => T): T => {
+  return ifThen<T>(dev, fn);
+};
+
+export { $, $$, todo, ifThen, ifDev };
