@@ -6,7 +6,7 @@
   import IconSearch from "@tabler/icons-svelte/IconSearch.svelte";
   import { open } from "@tauri-apps/api/shell";
   import type { SubmitFunction } from "@sveltejs/kit";
-  import suggest from "$lib/util/suggest";
+  import { req } from "$lib/util/suggest";
   import SearchResult from "./SearchResult.svelte";
 
   let stroke: number = 2;
@@ -19,7 +19,7 @@
 
   $: (async () => {
     let trim = searchText.trim();
-    if (trim !== "" && trim !== ahead) results = await suggest.req("google", searchText);
+    if (trim !== "" && trim !== ahead) results = await req("google", searchText);
     if (searchText == "") results = [];
     ahead = trim;
     ifThen(true, () => {
