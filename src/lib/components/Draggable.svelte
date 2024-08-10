@@ -1,8 +1,8 @@
 <script lang="ts">
-  //
+  // TODO
   let el: HTMLElement;
   onMount(() => {
-    let node = el.querySelectorAll("[data-draggable]");
+    // let node = el.querySelectorAll("[data-draggable]");
   });
 </script>
 

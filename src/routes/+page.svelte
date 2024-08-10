@@ -12,7 +12,6 @@
   let stroke: number = 2;
 
   // suggest
-  let showResults = true;
   let searchInput: HTMLInputElement;
   let searchText: string = "";
   let results: string[] = [];
@@ -57,9 +56,7 @@
       </div>
     </form>
     <div>
-      {#if showResults}
-        <SearchResult {results}></SearchResult>
-      {/if}
+      <SearchResult {results}></SearchResult>
     </div>
   </div>
 </Template>
