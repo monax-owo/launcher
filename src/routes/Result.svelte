@@ -4,24 +4,25 @@
 </script>
 
 <!-- TODO:クリックできるようにする -->
-<div class="Result">
-  <span on:click>
+<li class="Result">
+  <button type="button" class="reset-button" on:click>
     <slot></slot>
-  </span>
+  </button>
   <div class="code">
     {#if shortcut()}
       <kbd>{index}</kbd>
     {/if}
   </div>
-</div>
+</li>
 
 <style lang="scss">
+  @use "$lib/style/global.scss" as *;
   .Result {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     height: 1.6rem;
-    & span {
+    & button {
       margin: 0 0.4rem;
       overflow: hidden;
       text-overflow: ellipsis;

@@ -61,7 +61,7 @@
       {#if showResults}
         <ul class="search-results">
           {#each results as result, index}
-            <li><Result index={++index}>{result}</Result></li>
+            <Result index={++index}>{result}</Result>
           {/each}
         </ul>
       {/if}
@@ -105,7 +105,7 @@
       background: inherit;
       list-style: none;
       // Only when a child element
-      &:has(> li) {
+      &:global(:has(> li)) {
         border-top: solid var(--b-bg) 1px;
         padding: 0.2rem 0;
       }

@@ -6,3 +6,16 @@
 .shadow-1 {
   @include shadow-1(var(--blur));
 }
+
+.reset-button {
+  all: unset;
+  appearance: none;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  padding: 0;
+  width: auto;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+}

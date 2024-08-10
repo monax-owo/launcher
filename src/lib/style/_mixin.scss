@@ -24,6 +24,7 @@ $breakpoints: (
   &:active {
     @content;
   }
+
   @include media(md) {
     &:hover {
       @content;
