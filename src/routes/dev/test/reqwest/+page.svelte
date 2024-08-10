@@ -1,11 +1,11 @@
 <script lang="ts">
   import { Template } from "$lib/imports";
-  import suggest from "$lib/suggest";
+  import { req } from "$lib/util/suggest";
   // throw new Error("boom");
   let res: string[];
   let q = "test";
   const handle = async () => {
-    res = await suggest.req("google", q);
+    res = await req("google", q);
   };
 </script>
 

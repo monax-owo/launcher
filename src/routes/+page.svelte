@@ -6,7 +6,7 @@
   import IconSearch from "@tabler/icons-svelte/IconSearch.svelte";
   import { open } from "@tauri-apps/api/shell";
   import type { SubmitFunction } from "@sveltejs/kit";
-  import suggest from "$lib/suggest";
+  import suggest from "$lib/util/suggest";
   import SearchResult from "./SearchResult.svelte";
 
   let stroke: number = 2;
