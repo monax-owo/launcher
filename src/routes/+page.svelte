@@ -8,7 +8,6 @@
   import type { SubmitFunction } from "@sveltejs/kit";
   import Result from "./Result.svelte";
   import suggest from "$lib/suggest";
-  import { ifThen } from "$lib/auto-imports";
 
   let stroke: number = 2;
 

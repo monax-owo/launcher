@@ -7,11 +7,11 @@ const todo = () => {
   throw new Error("--------TODO--------");
 };
 
-const ifThen = <T = void>(condition: boolean, fn: () => T): T => {
+const ifThen = <T = void>(condition: boolean, successFn: () => T, failureFn?: () => T): T => {
   if (condition) {
-    return fn();
+    return successFn();
   } else {
-    return undefined as T;
+    return failureFn === undefined ? (undefined as T) : failureFn();
   }
 };
 

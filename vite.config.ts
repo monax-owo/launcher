@@ -26,7 +26,7 @@ export default defineConfig({
           [path.resolve(__dirname, "./src/lib/auto-imports").replaceAll("\\", "/")]: ["Template"],
         },
         {
-          "$lib/auto-imports.ts": ["$", "$$", "ifDev"],
+          "$lib/auto-imports.ts": ["$", "$$", "todo", "ifThen", "ifDev"],
         },
       ],
     }),

@@ -15,9 +15,11 @@ declare global {
   const getContext: typeof import('svelte')['getContext']
   const hasContext: typeof import('svelte')['hasContext']
   const ifDev: typeof import('$lib/auto-imports.ts')['ifDev']
+  const ifThen: typeof import('$lib/auto-imports.ts')['ifThen']
   const onDestroy: typeof import('svelte')['onDestroy']
   const onMount: typeof import('svelte')['onMount']
   const setContext: typeof import('svelte')['setContext']
   const tick: typeof import('svelte')['tick']
+  const todo: typeof import('$lib/auto-imports.ts')['todo']
   const z: typeof import('zod')['default']
 }
