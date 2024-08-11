@@ -60,7 +60,9 @@ fn main() {
       let _tray_handle = SystemTray::new()
         .with_menu(tray_menu)
         .on_event(move |e| match &e {
-          SystemTrayEvent::LeftClick { .. } => main_window.show().unwrap(),
+          SystemTrayEvent::LeftClick { .. } => {
+            window_focus(&main_window).expect("failed to focusing main window")
+          }
           SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
             "show" => window_focus(&main_window).expect("failed to focusing main window"),
             "quit" => exit_0(&handle).expect("Failed to remove tasktray icon"),
