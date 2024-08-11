@@ -18,18 +18,17 @@
   import "@fontsource-variable/fira-code";
   //
   import { appWindow } from "@tauri-apps/api/window";
-  // import { register, registerAll, unregisterAll } from "@tauri-apps/api/globalShortcut";
-  // import { onMount } from "svelte";
+  import { register, registerAll, unregisterAll } from "@tauri-apps/api/globalShortcut";
+  import { invoke } from "@tauri-apps/api/tauri";
+  import { mainWindowFocus } from "$lib/util/wrap";
   //
   // TODO:ショートカットキーを割り当てる
-  // register("Alt+E", () => console.log("greet!"));
-  // onMount(() => {
-  //   return () => {
-  //     unregisterAll();
-  //     console.log("a");
-  //   };
-  // });
-  // unregisterAll();
+  register("Ctrl+Alt+E", () => mainWindowFocus());
+  onMount(() => {
+    return () => {
+      unregisterAll();
+    };
+  });
   // TODO:configファイルを作る
 </script>
 
