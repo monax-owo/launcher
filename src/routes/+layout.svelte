@@ -18,8 +18,7 @@
   import "@fontsource-variable/fira-code";
   //
   import { appWindow } from "@tauri-apps/api/window";
-  import { register, registerAll, unregisterAll } from "@tauri-apps/api/globalShortcut";
-  import { invoke } from "@tauri-apps/api/tauri";
+  import { register, unregisterAll } from "@tauri-apps/api/globalShortcut";
   import { mainWindowFocus } from "$lib/util/wrap";
   //
   // TODO:ショートカットキーを割り当てる
