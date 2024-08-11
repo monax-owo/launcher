@@ -2,14 +2,14 @@
   import { draggable } from "$lib/components/drag/drag";
 </script>
 
-<div class="Draggable">
+<div class="Widget">
   <div class="drag" role="button" tabindex="0" use:draggable>
     <slot></slot>
   </div>
 </div>
 
 <style lang="scss">
-  .Draggable {
+  .Widget {
     position: relative;
     width: 0;
     height: 0;

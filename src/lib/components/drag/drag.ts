@@ -2,8 +2,8 @@ import type { Action } from "svelte/action";
 
 const draggable: Action<HTMLElement> = (node) => {
   const down = (e: PointerEvent) => {
-    let target = e.currentTarget as HTMLElement;
-    let parent = target.parentElement;
+    const target = e.currentTarget as HTMLElement;
+    const parent = target.parentElement;
     if (parent === null) throw new Error("");
     const shiftX =
       parent.getBoundingClientRect().left + e.clientX - target.getBoundingClientRect().left;
