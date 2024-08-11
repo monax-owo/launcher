@@ -22,18 +22,8 @@ use windows::Win32::{
 
 fn main() {
   let builder = tauri::Builder::default();
-  // fn set_pos(window: &Window) {
-  //   let monitor = window.current_monitor().unwrap().unwrap();
-  //   let monitor_size = monitor.size();
-  //   let window_size = &window.outer_size().unwrap();
-
-  //   window
-  //     .set_position(size(monitor_size, window_size))
-  //     .expect("Failed to resize");
-  //   println!("set position");
-  // }
-
   let client = Client::new();
+
   builder
     .setup(move |app| {
       let handle = app.handle();
@@ -62,26 +52,18 @@ fn main() {
       }
 
       let _key = ["Ctrl+L", "Alt+P"];
+
       let tray_menu = SystemTrayMenu::new()
-        .add_item(CustomMenuItem::new("test", "Title"))
         .add_item(CustomMenuItem::new("show", "Show window"))
         .add_item(CustomMenuItem::new("quit", "Quit"));
 
       let _tray_handle = SystemTray::new()
         .with_menu(tray_menu)
         .on_event(move |e| match &e {
+          SystemTrayEvent::LeftClick { .. } => main_window.show().unwrap(),
           SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
-            "test" => println!(
-              "{:?}",
-              main_window.current_monitor().unwrap().unwrap().size()
-            ),
-            "show" => {
-              main_window.show().expect("Failed to focus for main window");
-              main_window.set_focus().unwrap();
-            }
-            "quit" => {
-              handle.exit(0);
-            }
+            "show" => window_focus(&main_window).expect("failed to focusing main window"),
+            "quit" => exit_0(&handle).expect("Failed to remove tasktray icon"),
             &_ => (),
           },
           _ => (),
@@ -100,7 +82,7 @@ fn main() {
       _ => (),
     })
     .manage(client)
-    .invoke_handler(tauri::generate_handler![exit, suggest])
+    .invoke_handler(tauri::generate_handler![exit, suggest, main_window_focus])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
