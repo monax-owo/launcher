@@ -1,8 +1,13 @@
 <script lang="ts">
   import { Template } from "$lib/imports";
+  import Draggable from "$components/drag/Draggable.svelte";
 </script>
 
-<Template>Drag</Template>
+<Template>
+  <span>test</span>
+  <Draggable>test</Draggable>
+</Template>
 
 <style lang="scss">
+  //
 </style>
