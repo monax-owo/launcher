@@ -10,6 +10,7 @@
   import SearchResult from "$lib/suggest/SearchResult.svelte";
   import { listen, TauriEvent, type UnlistenFn } from "@tauri-apps/api/event";
   import { dev } from "$app/environment";
+  import { base } from "$app/paths";
 
   let stroke: number = 2;
 
@@ -46,6 +47,7 @@
   (async () => {
     unlisten = await listen<string>(TauriEvent.WINDOW_FOCUS, () => {
       console.log("WINDOW_FOCUS");
+      searchInput.focus();
     });
   })();
 
@@ -88,7 +90,7 @@
   </div>
   {#if dev}
     <div class="widget">
-      <div class="one">aaa</div>
+      <div class="one"><a href="{base}/dev/test">test</a></div>
     </div>
   {/if}
 </Template>
