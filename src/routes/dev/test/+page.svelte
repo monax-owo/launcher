@@ -2,7 +2,7 @@
   import { Template } from "$lib/imports";
   import { page } from "$app/stores";
   const routes = {
-    "/reqwest": "Reqwest",
+    "/drag": "Drag",
     "/suggest": "Suggest",
   };
 </script>
