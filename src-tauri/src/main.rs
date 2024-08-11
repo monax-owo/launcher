@@ -72,11 +72,15 @@ fn main() {
       Ok(())
     })
     .on_window_event(move |e| match e.event() {
-      WindowEvent::Resized(_) => set_pos(&e.window()),
+      WindowEvent::Resized(_) => set_pos(e.window()),
       WindowEvent::Destroyed => println!("destroy!"),
-      WindowEvent::Focused(focus) if !focus => {
-        let _ = &e.window().hide().unwrap();
-        println!("hide");
+      WindowEvent::Focused(focus) => {
+        if *focus {
+          println!("show");
+        } else {
+          e.window().hide().unwrap();
+          println!("hide");
+        }
       }
       // WindowEvent::ScaleFactorChanged { .. } => set_pos(&e.window()),
       _ => (),
