@@ -1,11 +1,11 @@
 <script lang="ts">
   import { Template } from "$lib/imports";
-  import Draggable from "$components/drag/Draggable.svelte";
+  import Widget from "$components/drag/Widget.svelte";
 </script>
 
 <Template>
   <span>test</span>
-  <Draggable>test</Draggable>
+  <Widget>test</Widget>
 </Template>
 
 <style lang="scss">
