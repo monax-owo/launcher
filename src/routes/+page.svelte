@@ -8,7 +8,8 @@
   import type { SubmitFunction } from "@sveltejs/kit";
   import { req } from "$lib/suggest/suggest";
   import SearchResult from "$lib/suggest/SearchResult.svelte";
-  import { listen, TauriEvent } from "@tauri-apps/api/event";
+  import { listen, TauriEvent, type UnlistenFn } from "@tauri-apps/api/event";
+  import { dev } from "$app/environment";
 
   let stroke: number = 2;
 
@@ -40,15 +41,18 @@
     // });
   })();
 
+  let unlisten: UnlistenFn;
+
   (async () => {
-    const unlisten = await listen<string>(TauriEvent.WINDOW_FOCUS, () => {
+    unlisten = await listen<string>(TauriEvent.WINDOW_FOCUS, () => {
       console.log("WINDOW_FOCUS");
     });
-    onDestroy(() => {
-      unlisten();
-      console.log("destroy");
-    });
   })();
+
+  onDestroy(() => {
+    unlisten();
+    console.log("destroy");
+  });
 
   const opener: SubmitFunction = ({ cancel }) => {
     let param = encodeURIComponent(searchText.trim());
@@ -82,6 +86,11 @@
       <SearchResult {results}></SearchResult>
     </div>
   </div>
+  {#if dev}
+    <div class="widget">
+      <div class="one">aaa</div>
+    </div>
+  {/if}
 </Template>
 
 <style lang="scss">
@@ -127,6 +136,16 @@
       width: 2rem;
       height: 2rem;
       color: inherit;
+    }
+  }
+
+  .widget {
+    position: absolute;
+    & > div {
+      position: relative;
+    }
+    & .one {
+      left: 10px;
     }
   }
 </style>
