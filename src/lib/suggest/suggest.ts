@@ -1,4 +1,4 @@
-import { open } from "$lib/wrap";
+import { open } from "$lib/util/wrap";
 import { invoke } from "@tauri-apps/api/tauri";
 
 // TODO:rspc
