@@ -2,6 +2,7 @@
   import { draggable } from "$lib/components/drag/drag";
 </script>
 
+<!-- TODO:サイズ変更等 -->
 <div class="Widget">
   <div class="drag" role="button" tabindex="0" use:draggable>
     <slot></slot>
