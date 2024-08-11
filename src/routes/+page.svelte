@@ -19,13 +19,14 @@
 
   $: (async () => {
     let trim = searchText.trim();
-    if (trim !== "" && trim !== ahead) results = await req("google", searchText);
+    if (trim !== "" && trim !== ahead)
+      results = await req("google", searchText).catch(() => ["t", "e", "s", "t"]);
     if (searchText == "") results = [];
     ahead = trim;
     // TODO: run only when tarui dev
-    ifThen(false, () => {
-      results = ["abc", "abcマート", "ssssssssssssssss", "aweadawd"];
-    });
+    // ifThen(false, () => {
+    //   results = ["abc", "abcマート", "ssssssssssssssss", "aweadawd"];
+    // });
   })();
 
   const opener: SubmitFunction = ({ cancel }) => {
