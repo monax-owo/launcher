@@ -13,6 +13,10 @@
 </script>
 
 <!-- if svelte5 then move to snippets -->
+{#if results.length !== 0}
+  <!-- TODO:border -->
+  <div></div>
+{/if}
 <ul class="search-results">
   {#each results as result, index}
     <li>

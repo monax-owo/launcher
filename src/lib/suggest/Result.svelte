@@ -17,12 +17,16 @@
 </button>
 
 <style lang="scss">
+  @use "$lib/style/global.scss" as *;
   .Result {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 100%;
     height: 1.6rem;
+    &:hover {
+      background-color: #{Lightest(var(--bg), 80%)};
+    }
     & span {
       margin: 0 0.4rem;
       overflow: hidden;
