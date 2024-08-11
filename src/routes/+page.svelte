@@ -8,6 +8,7 @@
   import type { SubmitFunction } from "@sveltejs/kit";
   import { req } from "$lib/suggest/suggest";
   import SearchResult from "$lib/suggest/SearchResult.svelte";
+  import { listen, TauriEvent } from "@tauri-apps/api/event";
 
   let stroke: number = 2;
 
@@ -37,6 +38,16 @@
     // ifThen(false, () => {
     //   results = ["abc", "abcマート", "ssssssssssssssss", "aweadawd"];
     // });
+  })();
+
+  (async () => {
+    const unlisten = await listen<string>(TauriEvent.WINDOW_FOCUS, () => {
+      console.log("WINDOW_FOCUS");
+    });
+    onDestroy(() => {
+      unlisten();
+      console.log("destroy");
+    });
   })();
 
   const opener: SubmitFunction = ({ cancel }) => {
