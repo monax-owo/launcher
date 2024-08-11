@@ -1,11 +1,14 @@
 use anyhow::{bail, Ok};
 use reqwest::Client;
-// use reqwest::ClientBuilder;
 use serde::{Deserialize, Serialize};
 use serde_json::{from_str, Value};
 
 const RESULT_LENGTH: usize = 9;
-pub async fn suggest(service: &str, query: &str, client: &Client) -> anyhow::Result<Vec<String>> {
+pub async fn get_suggest(
+  service: &str,
+  query: &str,
+  client: &Client,
+) -> anyhow::Result<Vec<String>> {
   let res = match service {
     "google" => google(&query, client).await?,
     _ => bail!("missing service"),
