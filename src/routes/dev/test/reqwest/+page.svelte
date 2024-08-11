@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Template } from "$lib/imports";
-  import { req } from "$lib/util/suggest";
+  import { req } from "$lib/suggest/suggest";
   // throw new Error("boom");
   let res: string[];
   let q = "test";

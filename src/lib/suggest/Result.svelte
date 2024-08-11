@@ -1,28 +1,29 @@
 <script lang="ts">
   export let index: number;
+  export let href: string;
   let shortcut = (): boolean => index >= 0;
 </script>
 
 <!-- TODO:クリックできるようにする -->
-<li class="Result">
-  <button type="button" class="reset-button" on:click>
+<button type="button" class="Result reset-button" on:click data-href={href}>
+  <span>
     <slot></slot>
-  </button>
+  </span>
   <div class="code">
     {#if shortcut()}
       <kbd>{index}</kbd>
     {/if}
   </div>
-</li>
+</button>
 
 <style lang="scss">
-  @use "$lib/style/global.scss" as *;
   .Result {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 100%;
     height: 1.6rem;
-    & button {
+    & span {
       margin: 0 0.4rem;
       overflow: hidden;
       text-overflow: ellipsis;
