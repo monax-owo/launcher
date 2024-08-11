@@ -1,7 +1,6 @@
 <script lang="ts">
   export let index: number;
   export let href: string;
-  let shortcut = (): boolean => index >= 0;
 </script>
 
 <!-- TODO:クリックできるようにする -->
@@ -10,7 +9,7 @@
     <slot></slot>
   </span>
   <div class="code">
-    {#if shortcut()}
+    {#if index >= 0}
       <kbd>{index}</kbd>
     {/if}
   </div>
@@ -35,8 +34,13 @@
     }
     & .code {
       display: flex;
+      flex-wrap: wrap;
+      align-content: center;
       justify-content: center;
       width: 1.6rem;
+      & kbd {
+        font-size: 0.8rem;
+      }
     }
   }
 </style>

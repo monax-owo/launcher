@@ -73,4 +73,32 @@
     height: 100vh;
     // pointer-events: none;
   }
+
+  /* montserrat-latin-wght-normal */
+  @font-face {
+    font-style: normal;
+    font-weight: 100 900;
+    size-adjust: 110%;
+    src: url(@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2)
+      format("woff2-variations");
+    font-family: "Montserrat Variable";
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+      U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+      U+FFFD;
+  }
+
+  /* fira-code-latin-wght-normal */
+  @font-face {
+    font-style: normal;
+    font-weight: 300 700;
+    size-adjust: 116%;
+    src: url(@fontsource-variable/fira-code/files/fira-code-latin-wght-normal.woff2)
+      format("woff2-variations");
+    font-family: "Fira Code Variable";
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+      U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+      U+FFFD;
+  }
 </style>

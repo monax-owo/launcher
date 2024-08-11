@@ -20,7 +20,17 @@
   $: (async () => {
     let trim = searchText.trim();
     if (trim !== "" && trim !== ahead)
-      results = await req("google", searchText).catch(() => ["t", "e", "s", "t"]);
+      results = await req("google", searchText).catch(() => [
+        "t",
+        "e",
+        "s",
+        "t",
+        "lune",
+        "T",
+        "E",
+        "S",
+        "T",
+      ]);
     if (searchText == "") results = [];
     ahead = trim;
     // TODO: run only when tarui dev
