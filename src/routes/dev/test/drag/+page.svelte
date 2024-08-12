@@ -5,7 +5,7 @@
 
 <Template>
   <span>test</span>
-  <Widget>test</Widget>
+  <Widget initPos={[0, 0]}>test</Widget>
 </Template>
 
 <style lang="scss">
