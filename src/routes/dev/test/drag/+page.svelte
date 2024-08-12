@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Template } from "$lib/imports";
-  import Widget from "$components/drag/Widget.svelte";
+  import Widget from "$lib/util/drag/Widget.svelte";
 </script>
 
 <Template>
