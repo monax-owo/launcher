@@ -1,8 +1,9 @@
 <script lang="ts">
   import { draggable } from "$lib/util/drag/drag";
   let target: HTMLElement;
-  let posXpx: number = 12;
-  let posYpx: number = 12;
+  export let initPos: [number, number];
+  let posX: number = initPos[0] ?? 12;
+  let posY: number = initPos[1] ?? 12;
 </script>
 
 <!-- TODO:サイズ変更等 -->
