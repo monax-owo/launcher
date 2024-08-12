@@ -14,7 +14,8 @@
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
     "rust:fmt": "cd ./src-tauri && cargo fmt && cd ..",
-    "deploy-check": "pnpm format && pnpm rust:fmt && pnpm check && pnpm lint && pnpm tauri:build && echo success!"
+    "deploy-check": "pnpm format && pnpm rust:fmt && pnpm check && pnpm lint && pnpm tauri:build && echo success!",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@eslint/js": "^9.7.0",
@@ -31,6 +32,8 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-svelte": "^2.42.0",
     "globals": "^15.8.0",
+    "husky": "^9.1.4",
+    "lint-staged": "^15.2.8",
     "prettier": "^3.3.3",
     "prettier-plugin-css-order": "^2.1.2",
     "prettier-plugin-svelte": "^3.2.5",
