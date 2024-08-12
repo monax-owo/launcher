@@ -8,7 +8,7 @@ type DraggableParam = {
 const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
   //
   let target = param.target === undefined ? node : param.target;
-  let grabbingCursor = param.grabbingCursor ?? "grabbing";
+  const grabbingCursor = param.grabbingCursor ?? "grabbing";
   let aheadCursor: string;
   let aheadZindex: string;
   //

@@ -8,7 +8,13 @@
 
 <!-- TODO:サイズ変更等 -->
 <div class="area">
-  <div class="widget" role="button" tabindex="0" bind:this={target}>
+  <div
+    class="widget"
+    role="button"
+    tabindex="0"
+    bind:this={target}
+    style:--pos-x={posX}
+    style:--pos-y={posY}>
     <div class="grab" use:draggable={{ target }}></div>
     <slot></slot>
   </div>
