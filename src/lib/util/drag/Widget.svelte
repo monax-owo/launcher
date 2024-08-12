@@ -1,9 +1,10 @@
 <script lang="ts">
   import { draggable } from "$lib/util/drag/drag";
+  export let unit: string = "px";
+  export let initPos: [number, number] = [12, 12];
+  let posX: number = initPos[0];
+  let posY: number = initPos[1];
   let target: HTMLElement;
-  export let initPos: [number, number];
-  let posX: number = initPos[0] ?? 12;
-  let posY: number = initPos[1] ?? 12;
 </script>
 
 <!-- TODO:サイズ変更等 -->
@@ -13,8 +14,8 @@
     role="button"
     tabindex="0"
     bind:this={target}
-    style:--pos-x={posX}
-    style:--pos-y={posY}>
+    style:--pos-x={posX + unit}
+    style:--pos-y={posY + unit}>
     <div class="grab" use:draggable={{ target }}></div>
     <slot></slot>
   </div>
