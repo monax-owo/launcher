@@ -20,15 +20,18 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
     aheadCursor = node.style.cursor;
     aheadZindex = node.style.zIndex;
 
-    const diffX =
-      parent.getBoundingClientRect().left + e.clientX - target.getBoundingClientRect().left;
+    const parentRect = parent.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
 
-    const diffY =
-      parent.getBoundingClientRect().top + e.clientY - target.getBoundingClientRect().top;
+    const diffX = parentRect.left + e.clientX - targetRect.left;
+    const diffY = parentRect.top + e.clientY - targetRect.top;
+
+    console.log(parentRect.left, e.clientX, targetRect.left, diffX);
+    console.log(parentRect.top, e.clientY, targetRect.top, diffY);
 
     const setPos = (x: number, y: number) => {
-      target.style.left = x - diffX + "px";
-      target.style.top = y - diffY + "px";
+      if (true) target.style.left = x - diffX + "px";
+      if (true) target.style.top = y - diffY + "px";
     };
 
     const move = (e: MouseEvent) => {
