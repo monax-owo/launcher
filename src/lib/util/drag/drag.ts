@@ -30,8 +30,12 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
     console.log(parentRect.top, e.clientY, targetRect.top, diffY);
 
     const setPos = (x: number, y: number) => {
-      if (true) target.style.left = x - diffX + "px";
-      if (true) target.style.top = y - diffY + "px";
+      if (true) {
+        target.style.left = x - diffX + "px";
+      }
+      if (true) {
+        target.style.top = y - diffY + "px";
+      }
     };
 
     const move = (e: MouseEvent) => {
@@ -42,13 +46,13 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
       node.style.cursor = aheadCursor;
       node.style.zIndex = aheadZindex;
       document.removeEventListener("pointermove", move);
-      target.removeEventListener("pointerup", reset);
+      document.removeEventListener("pointerup", reset);
     };
 
     node.style.cursor = grabbingCursor;
     node.style.zIndex = "9999";
     document.addEventListener("pointermove", move);
-    node.addEventListener("pointerup", reset);
+    document.addEventListener("pointerup", reset);
   };
 
   node.addEventListener("pointerdown", down);
@@ -59,6 +63,11 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
       if (param.target) target = param.target;
     },
   };
+};
+
+const isBetween = (min: number, max: number, num: number): boolean => {
+  console.log(`min:${min} --- max:${max} --- num:${num}`);
+  return num >= min && num <= max;
 };
 
 export { draggable };
