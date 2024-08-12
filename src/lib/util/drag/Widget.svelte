@@ -4,7 +4,7 @@
 </script>
 
 <!-- TODO:サイズ変更等 -->
-<div class="Widget">
+<div class="area">
   <div class="widget" role="button" tabindex="0" bind:this={tar}>
     <div class="drag" use:draggable={tar}></div>
     <slot></slot>
@@ -12,7 +12,7 @@
 </div>
 
 <style lang="scss">
-  .Widget {
+  .area {
     position: relative;
     width: 0;
     height: 0;

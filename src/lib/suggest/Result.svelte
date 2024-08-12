@@ -4,7 +4,7 @@
 </script>
 
 <!-- TODO:クリックできるようにする -->
-<button type="button" class="Result reset-button" on:click data-href={href}>
+<button type="button" class="result reset-button" on:click data-href={href}>
   <span>
     <slot></slot>
   </span>
@@ -17,7 +17,7 @@
 
 <style lang="scss">
   @use "$lib/style/global.scss" as *;
-  .Result {
+  .result {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
