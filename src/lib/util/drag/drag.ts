@@ -17,6 +17,9 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
 
     if (parent === null) throw new Error("");
 
+    aheadCursor = node.style.cursor;
+    aheadZindex = node.style.zIndex;
+
     const diffX =
       parent.getBoundingClientRect().left + e.clientX - target.getBoundingClientRect().left;
 
@@ -39,8 +42,6 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
       target.removeEventListener("pointerup", reset);
     };
 
-    aheadCursor = node.style.cursor;
-    aheadZindex = node.style.zIndex;
     node.style.cursor = grabbingCursor;
     node.style.zIndex = "9999";
     document.addEventListener("pointermove", move);
