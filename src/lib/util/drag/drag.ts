@@ -1,32 +1,58 @@
 import type { Action } from "svelte/action";
-const draggable: Action<HTMLElement, HTMLElement | undefined> = (node, target) => {
-  let tar = target === undefined ? node : target;
+
+type DraggableParam = {
+  target?: HTMLElement;
+  grabbingCursor?: string;
+};
+
+const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
+  //
+  let target = param.target === undefined ? node : param.target;
+  let grabbingCursor = param.grabbingCursor ?? "grabbing";
+  let aheadCursor: string;
+  let aheadZindex: string;
+  //
   const down = (e: PointerEvent) => {
-    const parent = tar.parentElement;
+    const parent = target.parentElement;
+
     if (parent === null) throw new Error("");
-    const shiftX =
-      parent.getBoundingClientRect().left + e.clientX - tar.getBoundingClientRect().left;
-    const shiftY = parent.getBoundingClientRect().top + e.clientY - tar.getBoundingClientRect().top;
+
+    const diffX =
+      parent.getBoundingClientRect().left + e.clientX - target.getBoundingClientRect().left;
+
+    const diffY =
+      parent.getBoundingClientRect().top + e.clientY - target.getBoundingClientRect().top;
+
     const setPos = (x: number, y: number) => {
-      tar.style.left = x - shiftX + "px";
-      tar.style.top = y - shiftY + "px";
+      target.style.left = x - diffX + "px";
+      target.style.top = y - diffY + "px";
     };
+
     const move = (e: MouseEvent) => {
       setPos(e.pageX, e.pageY);
     };
-    const clear = () => {
-      tar.style.cursor = "move";
+
+    const reset = () => {
+      node.style.cursor = aheadCursor;
+      node.style.zIndex = aheadZindex;
       document.removeEventListener("pointermove", move);
-      tar.removeEventListener("pointerup", clear);
+      target.removeEventListener("pointerup", reset);
     };
+
+    aheadCursor = node.style.cursor;
+    aheadZindex = node.style.zIndex;
+    node.style.cursor = grabbingCursor;
+    node.style.zIndex = "9999";
     document.addEventListener("pointermove", move);
-    node.addEventListener("pointerup", clear);
+    node.addEventListener("pointerup", reset);
   };
+
   node.addEventListener("pointerdown", down);
   node.addEventListener("dragstart", (e) => e.preventDefault());
+
   return {
     update(param) {
-      if (param) tar = param;
+      if (param.target) target = param.target;
     },
   };
 };
