@@ -3,56 +3,92 @@ import type { Action } from "svelte/action";
 type DraggableParam = {
   target?: HTMLElement;
   grabbingCursor?: string;
+  padding?: number;
+  zindex?: number;
 };
 
 const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
-  //
   let target = param.target === undefined ? node : param.target;
-  const grabbingCursor = param.grabbingCursor ?? "grabbing";
+  const GRABBINGCURSOR = param.grabbingCursor ?? "grabbing";
+  const PADDING = param.padding ?? 0;
+  const ZINDEX = String(param.zindex ?? 9999);
   let aheadCursor: string;
   let aheadZindex: string;
-  //
+
   const down = (e: PointerEvent) => {
     const parent = target.parentElement;
-
     if (parent === null) throw new Error("");
 
     aheadCursor = node.style.cursor;
     aheadZindex = node.style.zIndex;
 
+    // 上書きする？
     const parentRect = parent.getBoundingClientRect();
     const targetRect = target.getBoundingClientRect();
 
     const diffX = parentRect.left + e.clientX - targetRect.left;
     const diffY = parentRect.top + e.clientY - targetRect.top;
 
-    console.log(parentRect.left, e.clientX, targetRect.left, diffX);
-    console.log(parentRect.top, e.clientY, targetRect.top, diffY);
+    const windowWidth = window.innerWidth;
+    const browserHeight = window.innerHeight;
 
-    const setPos = (x: number, y: number) => {
-      if (true) {
-        target.style.left = x - diffX + "px";
-      }
-      if (true) {
-        target.style.top = y - diffY + "px";
-      }
+    const targetWidth = target.offsetWidth;
+    const targetHeight = target.offsetHeight;
+
+    const dragListen = (fn: (e: PointerEvent) => void) => {
+      window.addEventListener("pointermove", fn);
+
+      window.addEventListener("pointerleave", dragUnListen.bind(undefined, fn));
+      window.addEventListener("pointerup", dragUnListen.bind(undefined, fn));
+      window.addEventListener("pointercancel", dragUnListen.bind(undefined, fn));
+
+      target.style.cursor = GRABBINGCURSOR;
+      target.style.zIndex = ZINDEX;
     };
 
-    const move = (e: MouseEvent) => {
-      setPos(e.pageX, e.pageY);
+    const dragUnListen = (fn: (this: Window, e: PointerEvent) => void) => {
+      window.removeEventListener("pointermove", fn);
+
+      window.removeEventListener("pointerleave", dragUnListen.bind(undefined, fn));
+      window.removeEventListener("pointerup", dragUnListen.bind(undefined, fn));
+      window.removeEventListener("pointercancel", dragUnListen.bind(undefined, fn));
+
+      target.style.cursor = aheadCursor;
+      target.style.zIndex = aheadZindex;
     };
 
-    const reset = () => {
-      node.style.cursor = aheadCursor;
-      node.style.zIndex = aheadZindex;
-      document.removeEventListener("pointermove", move);
-      document.removeEventListener("pointerup", reset);
+    const getPosX = (event: PointerEvent) => {
+      return "clientX" in event ? event.clientX : 0;
     };
 
-    node.style.cursor = grabbingCursor;
-    node.style.zIndex = "9999";
-    document.addEventListener("pointermove", move);
-    document.addEventListener("pointerup", reset);
+    const getPosY = (event: PointerEvent) => {
+      return "clientY" in event ? event.clientY : 0;
+    };
+
+    const move = (x: number, y: number) => {
+      let moveLeft = x - diffX;
+      let moveTop = y - diffY;
+
+      // up
+      if (moveTop < PADDING) moveTop = PADDING;
+      // down
+      if (moveTop + targetHeight + PADDING > browserHeight)
+        moveTop = browserHeight - targetHeight - PADDING;
+      // left
+      if (moveLeft < PADDING) moveLeft = PADDING;
+      // right
+      if (moveLeft + targetWidth + PADDING > windowWidth)
+        moveLeft = windowWidth - targetWidth - PADDING;
+
+      target.style.left = moveLeft + "px";
+      target.style.top = moveTop + "px";
+    };
+
+    dragListen((e) => {
+      const x = getPosX(e);
+      const y = getPosY(e);
+      move(x, y);
+    });
   };
 
   node.addEventListener("pointerdown", down);
@@ -62,12 +98,11 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
     update(param) {
       if (param.target) target = param.target;
     },
+    destroy() {
+      node.removeEventListener("pointerdown", down);
+      node.removeEventListener("dragstart", (e) => e.preventDefault());
+    },
   };
-};
-
-const isBetween = (min: number, max: number, num: number): boolean => {
-  console.log(`min:${min} --- max:${max} --- num:${num}`);
-  return num >= min && num <= max;
 };
 
 export { draggable };
