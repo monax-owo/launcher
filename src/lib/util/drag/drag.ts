@@ -1,17 +1,59 @@
 import type { Action } from "svelte/action";
 
-type DraggableParam = {
-  target?: HTMLElement;
+// interface E extends Element {}
+type E = Element;
+
+interface DraggableParam {
   grabbingCursor?: string;
+  handles?: HandleElements | Array<E>;
   padding?: number;
+  resizeble?: boolean;
+  size?: [number, number];
+  target?: HTMLElement;
   zindex?: number;
+}
+
+interface HandleElements {
+  top: E;
+  top_right: E;
+  right: E;
+  right_bottom: E;
+  bottom: E;
+  bottom_left: E;
+  left: E;
+  left_top: E;
+}
+
+const arrayToHandleElements = (array: Array<E>): HandleElements => {
+  if (array.length === 4) {
+    // [top, right, bottom, left];
+    return {} as HandleElements;
+  } else if (array.length === 8) {
+    // [top, top_right, right, right_bottom, bottom, bottom_left, left, left_top];
+    return {} as HandleElements;
+  }
+  throw new Error("array length is wrong");
 };
 
+// TODO: 初期状態を最小化にする
+// TODO: ハンドルを掴んだときのヘルパー関数を作る
 const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
-  let target = param.target === undefined ? node : param.target;
+  let target = param.target ?? node;
+
+  let handles: HandleElements | null;
+  if (param.handles) {
+    handles = Array.isArray(param.handles) ? arrayToHandleElements(param.handles) : param.handles;
+  } else {
+    handles = null;
+  }
+  // TODO
+  console.log(handles);
+
   const GRABBINGCURSOR = param.grabbingCursor ?? "grabbing";
   const PADDING = param.padding ?? 0;
+  // const SIZE = param.size ?? [240, 120];
   const ZINDEX = String(param.zindex ?? 9999);
+
   let aheadCursor: string;
   let aheadZindex: string;
 
@@ -57,11 +99,11 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
       target.style.zIndex = aheadZindex;
     };
 
-    const getPosX = (event: PointerEvent) => {
+    const getClientPosX = (event: PointerEvent) => {
       return "clientX" in event ? event.clientX : 0;
     };
 
-    const getPosY = (event: PointerEvent) => {
+    const getClientPosY = (event: PointerEvent) => {
       return "clientY" in event ? event.clientY : 0;
     };
 
@@ -85,11 +127,20 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
     };
 
     dragListen((e) => {
-      const x = getPosX(e);
-      const y = getPosY(e);
+      const x = getClientPosX(e);
+      const y = getClientPosY(e);
       move(x, y);
     });
   };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const applyWidth = (value: number): void => {};
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const applyHeight = (value: number): void => {};
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const resize = (width: number, height: number): void => {};
 
   node.addEventListener("pointerdown", down);
   node.addEventListener("dragstart", (e) => e.preventDefault());
@@ -97,6 +148,7 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
   return {
     update(param) {
       if (param.target) target = param.target;
+      if (param.size) resize(param.size[0], param.size[1]);
     },
     destroy() {
       node.removeEventListener("pointerdown", down);
