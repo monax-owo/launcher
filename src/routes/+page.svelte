@@ -110,8 +110,8 @@
     color: var(--text);
     &-input {
       display: flex;
+      flex-direction: row;
       justify-content: space-between;
-      align-self: center;
       padding-left: 0.6rem;
       height: var(--search-height);
     }
@@ -128,13 +128,13 @@
   }
 
   .icon {
-    display: inline-block;
+    display: block;
     align-self: center;
     & button {
-      appearance: none;
-      border: none;
-      background-color: transparent;
-      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: auto;
       width: 2rem;
       height: 2rem;
       color: inherit;

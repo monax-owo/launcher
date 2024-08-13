@@ -8,6 +8,8 @@
 </script>
 
 <Template>
+  <h1>テストページ</h1>
+  <div>機能の実装が終わったら消す</div>
   <ul>
     {#each Object.entries(routes) as [href, v]}
       <li><a href={$page.url.pathname + href}>{v}</a></li>

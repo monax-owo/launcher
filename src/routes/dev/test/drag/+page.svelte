@@ -5,7 +5,7 @@
 
 <Template>
   <span>test</span>
-  <Widget>test</Widget>
+  <Widget><span>test</span></Widget>
 </Template>
 
 <style lang="scss">
