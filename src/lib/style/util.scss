@@ -9,10 +9,10 @@
 
 button:not(.btn) {
   all: unset;
+  display: inline-block;
   appearance: none;
   cursor: pointer;
   outline: none;
-  display: inline-block;
   border: none;
   padding: 0;
   width: auto;
