@@ -1,7 +1,7 @@
 import type { Action } from "svelte/action";
 
-// interface E extends Element {}
-type E = Element;
+// interface E extends HTMLElement {}
+type E = HTMLElement;
 
 interface DraggableParam {
   grabbingCursor?: string;
@@ -35,6 +35,7 @@ const arrayToHandleElements = (array: Array<E>): HandleElements => {
   throw new Error("array length is wrong");
 };
 
+// TODO: 呼び出し元に操作用の関数を渡す(返す)？
 // TODO: 初期状態を最小化にする
 // TODO: ハンドルを掴んだときのヘルパー関数を作る
 const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
@@ -51,11 +52,19 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
 
   const GRABBINGCURSOR = param.grabbingCursor ?? "grabbing";
   const PADDING = param.padding ?? 0;
-  // const SIZE = param.size ?? [240, 120];
   const ZINDEX = String(param.zindex ?? 9999);
 
   let aheadCursor: string;
   let aheadZindex: string;
+
+  let windowWidth: number;
+  let windowHeight: number;
+  const handleWindowResize = () => {
+    windowWidth = window.innerWidth;
+    windowHeight = window.innerHeight;
+  };
+  handleWindowResize();
+  window.addEventListener("resize", handleWindowResize);
 
   const down = (e: PointerEvent) => {
     const parent = target.parentElement;
@@ -64,15 +73,11 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
     aheadCursor = node.style.cursor;
     aheadZindex = node.style.zIndex;
 
-    // 上書きする？
     const parentRect = parent.getBoundingClientRect();
     const targetRect = target.getBoundingClientRect();
 
     const diffX = parentRect.left + e.clientX - targetRect.left;
     const diffY = parentRect.top + e.clientY - targetRect.top;
-
-    const windowWidth = window.innerWidth;
-    const browserHeight = window.innerHeight;
 
     const targetWidth = target.offsetWidth;
     const targetHeight = target.offsetHeight;
@@ -111,11 +116,12 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
       let moveLeft = x - diffX;
       let moveTop = y - diffY;
 
+      // 別の関数に切り離す？
       // up
       if (moveTop < PADDING) moveTop = PADDING;
       // down
-      if (moveTop + targetHeight + PADDING > browserHeight)
-        moveTop = browserHeight - targetHeight - PADDING;
+      if (moveTop + targetHeight + PADDING > windowHeight)
+        moveTop = windowHeight - targetHeight - PADDING;
       // left
       if (moveLeft < PADDING) moveLeft = PADDING;
       // right
@@ -133,14 +139,20 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
     });
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const applyWidth = (value: number): void => {};
+  const applyWidth = (value: number): void => {
+    if (value > windowWidth) value = windowWidth;
+    target.style.width = value + "px";
+  };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const applyHeight = (value: number): void => {};
+  const applyHeight = (value: number): void => {
+    if (value > windowHeight) value = windowHeight;
+    target.style.height = value + "px";
+  };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const resize = (width: number, height: number): void => {};
+  const resize = (width: number, height: number): void => {
+    applyWidth(width);
+    applyHeight(height);
+  };
 
   node.addEventListener("pointerdown", down);
   node.addEventListener("dragstart", (e) => e.preventDefault());
@@ -153,6 +165,7 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
     destroy() {
       node.removeEventListener("pointerdown", down);
       node.removeEventListener("dragstart", (e) => e.preventDefault());
+      window.removeEventListener("resize", handleWindowResize);
     },
   };
 };

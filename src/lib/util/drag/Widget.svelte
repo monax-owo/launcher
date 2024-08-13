@@ -1,32 +1,42 @@
 <script lang="ts">
   import { draggable } from "$lib/util/drag/drag";
 
-  export let unit: string = "px";
+  export let borderSize: number = 1;
+  export let handleSize: number = 12;
   export let initPos: [number, number] = [12, 12];
-  export let size: [number, number] = [240, 120];
   export let padding: number = 0;
   export let resizeble: boolean = true;
+  export let size: [number, number] = [400, 280];
+  export let title: string = "no title";
 
   let [left, top] = initPos;
   // let [width, height] = size;
   let target: HTMLElement;
-  let handles: HTMLElement[];
+  let handles: HTMLElement[] = Array(8).fill(null);
 
   onMount(() => {
-    target.style.left = left + unit;
-    target.style.top = top + unit;
+    target.style.left = left + "px";
+    target.style.top = top + "px";
   });
-
-  // TODO:width height
-  // $: if (resizeble) resize(width, height);
 </script>
 
-<!-- TODO:サイズ変更等 -->
+<!-- TODO: dragのカーソルをどっちにするか決める -->
+<!-- TODO: サイズ変更等 -->
 <div class="root">
   <div class="home">
-    <div class="widget" role="button" tabindex="0" bind:this={target}>
-      <div class="header" use:draggable={{ target, padding, size }}></div>
-      <div class="body">
+    <div
+      class="widget"
+      role="button"
+      tabindex="0"
+      bind:this={target}
+      style:--b={borderSize + "px"}
+      style:--h-size={handleSize + "px"}>
+      <div class="header" use:draggable={{ handles, padding, size, target }}>
+        <div class="header-title">{title}</div>
+        <button type="button">X</button>
+      </div>
+      <div class="border" />
+      <div class="content">
         <slot></slot>
       </div>
       {#if resizeble}
@@ -59,48 +69,60 @@
   }
 
   .widget {
+    display: flex;
     position: absolute;
-    // top: 0;
-    // left: 0;
+    flex-flow: column nowrap;
+    box-sizing: content-box;
+    border: var(--b) solid var(--b-bg);
+    border-radius: var(--b-radius);
     background-color: var(--bg);
+    overflow: hidden;
     color: var(--text);
-    // }
 
-    // .widget {
-    // position: absolute;
-    // top: 0;
-    // left: 0;
-    // width: 100%;
-    // height: 100%;
-    // pointer-events: none;
-    // var(--hs);
-    // var(--nhs);
-    --hs: 12px;
-    --nhs: calc(-1 * var(--hs) / 2);
+    --b: 0;
+    --h-size: 0;
+    --hs: calc(var(--h-size) + var(--b));
+    --nhs: calc(calc(-1 * var(--hs)) + 4px);
+    --pd: calc(var(--hs) + var(--nhs));
+
     & .header {
+      display: flex;
+      flex-flow: row nowrap;
+      justify-content: space-between;
       cursor: grab;
-      height: 1rem;
+      padding: 0 0.4rem;
+      height: 1.4rem;
     }
 
-    & > :not(.header, .body) {
+    & .border {
+      background-color: var(--b-bg);
+      height: var(--b);
+    }
+
+    & .content {
+      flex: 1;
+      background-color: #fff !important;
+      padding: 0 var(--pd) var(--pd);
+      height: auto;
+    }
+
+    & > :is(.t, .r, .b, .l) {
       position: absolute;
-      opacity: 0.5;
-      background-color: #fff;
     }
 
-    & > :is(.t, .b):is(.r, .l) {
-      background-color: red;
-    }
+    // & > :is(.t, .b):is(.r, .l) {
+    //
+    // }
 
     & .y {
       left: 0;
+      cursor: ns-resize;
       width: 100%;
-      // height: var(--hs);
     }
 
     & .x {
       top: 0;
-      // width: var(--hs);
+      cursor: ew-resize;
       height: 100%;
     }
 

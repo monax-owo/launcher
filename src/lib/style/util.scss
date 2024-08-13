@@ -7,11 +7,12 @@
   @include shadow-1(var(--blur));
 }
 
-.reset-button {
+button:not(.btn) {
   all: unset;
   appearance: none;
   cursor: pointer;
   outline: none;
+  display: inline-block;
   border: none;
   padding: 0;
   width: auto;
