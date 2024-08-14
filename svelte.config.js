@@ -7,8 +7,9 @@ const config = {
   kit: {
     adapter: adapter(),
     alias: {
-      $routes: "src/routes",
       $components: "src/lib/components",
+      $routes: "src/routes",
+      $types: "src/@types",
     },
     paths: {
       base: process.argv.includes("dev") ? "/dev" : "",

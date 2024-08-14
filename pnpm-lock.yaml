@@ -23,6 +23,9 @@ importers:
       '@rspc/svelte-query':
         specifier: ^0.2.4
         version: 0.2.4(@tanstack/svelte-query@5.51.21(svelte@4.2.18))(svelte@4.2.18)
+      '@rspc/tauri':
+        specifier: ^0.2.4
+        version: 0.2.4(@tauri-apps/api@1.6.0)
       '@tauri-apps/api':
         specifier: ^1.6.0
         version: 1.6.0
@@ -702,6 +705,11 @@ packages:
     peerDependencies:
       '@tanstack/svelte-query': ^5.0.0
       svelte: '>=3 <5'
+
+  '@rspc/tauri@0.2.4':
+    resolution: {integrity: sha512-/PZrkrKHZzkf5X4q9ANOc+eDB1vCs4ts29gJd1jojl1jkhGKdmccTuehqVuo122nr0ZOUf29j1it5fOrPHqsZw==}
+    peerDependencies:
+      '@tauri-apps/api': ^1.2.0
 
   '@sideway/address@4.1.5':
     resolution: {integrity: sha512-IqO/DUQHUkPeixNQ8n0JA6102hT9CmaljNTPmQ1u8MEhBo/R4Q8eKLN/vGZxuebwOroDB4cbpjheD4+/sKFK4Q==}
@@ -2736,6 +2744,11 @@ snapshots:
       '@rspc/query-core': 0.2.4(@rspc/client@0.2.4)
       '@tanstack/svelte-query': 5.51.21(svelte@4.2.18)
       svelte: 4.2.18
+
+  '@rspc/tauri@0.2.4(@tauri-apps/api@1.6.0)':
+    dependencies:
+      '@rspc/client': 0.2.4
+      '@tauri-apps/api': 1.6.0
 
   '@sideway/address@4.1.5':
     dependencies:
