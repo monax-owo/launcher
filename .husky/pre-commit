@@ -1,10 +1,11 @@
 staged=$(git diff --cached --name-only --diff-filter=ACMR)
-prettier=$(sed 's| |\\ |g' <<< $staged)
-rs=$(grep '\.rs$' <<< $staged || echo "")
+prettier=$(sed 's| |\\ |g' <<<"$staged")
+rs=$(grep '\.rs$' <<<"$staged" || echo "")
 
-echo $staged
-echo $prettier
-echo $rs
+echo
+echo "staged - " $staged
+echo "prettier - " $prettier
+echo "rs - " $rs
 
 if [ -n "$rs" ]; then
   echo ".rs files found"
