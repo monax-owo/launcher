@@ -1,6 +1,9 @@
-staged=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
+staged=$(git diff --cached --name-only --diff-filter=ACMR)
+prettier=$(sed 's| |\\ |g' <<< $staged)
+rs=$(grep '\.rs$' <<< $staged || echo "")
+
 echo $staged
-rs=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.rs$' || echo "")
+echo $prettier
 echo $rs
 
 if [ -n "$rs" ]; then
@@ -10,5 +13,5 @@ else
   echo ".rs files not found"
 fi
 
-pnpm prettier $staged --write -u
+pnpm prettier $prettier --write -u
 pnpm lint-staged
