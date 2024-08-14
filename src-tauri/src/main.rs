@@ -34,6 +34,7 @@ fn main() {
       #[cfg(debug_assertions)]
       {
         main_window.open_devtools();
+        println!("is dev");
         // main_window.set_ignore_cursor_events(true).unwrap();
         // ts側でbodyにカーソルが乗っているときだけtrueにする？
       }
