@@ -17,7 +17,6 @@ pub async fn get_suggest(
   Ok(res)
 }
 
-// TODO: clientを作る、
 #[derive(Serialize, Deserialize, Debug)]
 struct Google {
   result: (String, Vec<String>, Vec<String>, Value, Value),

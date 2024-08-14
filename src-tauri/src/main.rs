@@ -93,7 +93,6 @@ async fn main() {
           println!("hide");
         }
       }
-      // WindowEvent::ScaleFactorChanged { .. } => set_pos(&e.window()),
       _ => (),
     })
     .manage(client)
@@ -112,18 +111,17 @@ fn set_pos(window: &Window) {
     monitor_size.height - (OFFSET * 2),
   ];
   let size = PhysicalSize::new(size[0], size[1]);
-  // let pos = PhysicalPosition::new(0 - OFFSET as i32, 0 - OFFSET as i32);
   let pos = PhysicalPosition::new(OFFSET, OFFSET);
   println!("{:?}", &size);
   println!("{:?}", &pos);
   window.set_size(size).expect("Failed to set size");
   window.set_position(pos).expect("Failed to set position");
   // 0,0だとYoutubeが止まる。原因不明。ウィンドウがかぶさると動画が再生されないようになっている？
+  // |->1pxだけ隙間を開けた
 
   println!("set position");
 }
 
-// #[tauri::command]
 fn greet(name: &str) -> String {
-  format!("Hello, {}! You've been greeted from Rust!", name)
+  format!("Hello, {}!", name)
 }
