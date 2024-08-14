@@ -10,9 +10,11 @@ use tauri::{
 };
 
 mod command;
+mod config;
 mod suggest;
 
 use command::*;
+use config::*;
 use suggest::*;
 
 #[cfg(target_os = "windows")]
