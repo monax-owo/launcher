@@ -7,4 +7,5 @@ yarn.lock
 **/node_modules
 **/.svelte-kit
 src/@types/auto-imports.d.ts
+src/@types/rspc
 target

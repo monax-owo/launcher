@@ -26,9 +26,14 @@ async fn main() {
   let builder = tauri::Builder::default();
   let client = Client::new();
   let router = <Router>::new()
-    .config(Config::new().export_ts_bindings(
-      std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../src/@types/rspc/bindings.ts"),
-    ))
+    .config(
+      Config::new()
+        .export_ts_bindings(
+          std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../src/@types/rspc/bindings.d.ts"),
+        )
+        .set_ts_bindings_header(""),
+    )
     .query("greet", |t| t(|_, name: String| greet(&name)))
     .build();
 
