@@ -27,7 +27,7 @@ async fn main() {
   let client = Client::new();
   let router = <Router>::new()
     .config(Config::new().export_ts_bindings(
-      std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../src/@types/rspc/bindings.ts"),
+      std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../src/@types/rspc/bindings.d.ts"),
     ))
     .query("greet", |t| t(|_, name: String| greet(&name)))
     .build();

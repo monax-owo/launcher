@@ -3,7 +3,7 @@
   import { page } from "$app/stores";
   const routes = {
     "/drag": "Drag",
-    "/suggest": "Suggest",
+    "/rspc": "Rspc",
   };
 </script>
 
