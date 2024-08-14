@@ -2,7 +2,7 @@ staged=$(git diff --cached --name-only --diff-filter=ACMR)
 prettier=$(sed 's| |\\ |g' <<<"$staged")
 rs=$(grep '\.rs$' <<<"$staged" || echo "")
 
-echo
+echo "husky started"
 echo "staged - " $staged
 echo "prettier - " $prettier
 echo "rs - " $rs
