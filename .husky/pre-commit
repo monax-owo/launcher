@@ -1,2 +1,3 @@
+cargo clippy --fix --allow-dirty --allow-staged --manifest-path ./src-tauri/Cargo.toml || exit
 pnpm prettier $(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g') --write -u
 pnpm lint-staged

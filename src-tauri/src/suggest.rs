@@ -10,7 +10,7 @@ pub async fn get_suggest(
   client: &Client,
 ) -> anyhow::Result<Vec<String>> {
   let res = match service {
-    "google" => google(&query, client).await?,
+    "google" => google(query, client).await?,
     _ => bail!("missing service"),
   };
   println!("{:?}", &res);
