@@ -1,3 +1,14 @@
-cargo clippy --fix --allow-dirty --allow-staged --manifest-path ./src-tauri/Cargo.toml || exit
-pnpm prettier $(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g') --write -u
+staged=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
+echo $staged
+rs=$(git diff --cached --name-only --diff-filter=ACMR | grep '\.rs$' || echo "")
+echo $rs
+
+if [ -n "$rs" ]; then
+  echo ".rs files found"
+  cargo clippy --fix --allow-dirty --allow-staged --manifest-path ./src-tauri/Cargo.toml || exit
+else
+  echo ".rs files not found"
+fi
+
+pnpm prettier $staged --write -u
 pnpm lint-staged
