@@ -1,18 +1,19 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-mod command;
-mod suggest;
-
-use command::*;
-use suggest::*;
-
 use reqwest::Client;
+// use serde::{Deserialize, Serialize};
 use std::os::raw::c_void;
 use tauri::{
   CustomMenuItem, Manager, PhysicalPosition, PhysicalSize, SystemTray, SystemTrayEvent,
   SystemTrayMenu, Window, WindowEvent,
 };
+
+mod command;
+mod suggest;
+
+use command::*;
+use suggest::*;
 
 #[cfg(target_os = "windows")]
 use windows::Win32::{
@@ -22,6 +23,15 @@ use windows::Win32::{
 
 #[tokio::main]
 async fn main() {
+  #[cfg(debug_assertions)]
+  tauri_specta::ts::export(
+    specta::collect_types![
+      // functions to export
+    ],
+    "../src/@types/generated/specta/bindings.d.ts",
+  )
+  .expect("failed to generate types");
+
   let builder = tauri::Builder::default();
   let client = Client::new();
 

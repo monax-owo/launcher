@@ -7,7 +7,7 @@ export {}
 declare global {
   const $: typeof import('$lib/auto-imports.ts')['$']
   const $$: typeof import('$lib/auto-imports.ts')['$$']
-  const Template: typeof import('../lib/auto-imports')['Template']
+  const Template: typeof import('../../lib/auto-imports')['Template']
   const afterUpdate: typeof import('svelte')['afterUpdate']
   const beforeUpdate: typeof import('svelte')['beforeUpdate']
   const createEventDispatcher: typeof import('svelte')['createEventDispatcher']
