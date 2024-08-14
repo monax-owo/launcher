@@ -8,7 +8,6 @@ use command::*;
 use suggest::*;
 
 use reqwest::Client;
-use rspc::{Config, Router};
 use std::os::raw::c_void;
 use tauri::{
   CustomMenuItem, Manager, PhysicalPosition, PhysicalSize, SystemTray, SystemTrayEvent,
@@ -25,12 +24,6 @@ use windows::Win32::{
 async fn main() {
   let builder = tauri::Builder::default();
   let client = Client::new();
-  let router = <Router>::new()
-    .config(Config::new().export_ts_bindings(
-      std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../src/@types/rspc/bindings.d.ts"),
-    ))
-    .query("greet", |t| t(|_, name: String| greet(&name)))
-    .build();
 
   builder
     .setup(move |app| {
@@ -59,8 +52,6 @@ async fn main() {
           }
         }
       }
-
-      let _key = ["Ctrl+L", "Alt+P"];
 
       let tray_menu = SystemTrayMenu::new()
         .add_item(CustomMenuItem::new("show", "Show window"))
@@ -97,7 +88,6 @@ async fn main() {
     })
     .manage(client)
     .invoke_handler(tauri::generate_handler![exit, suggest, main_window_focus])
-    .plugin(rspc_tauri::plugin(router.arced(), |_| ()))
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
@@ -120,8 +110,4 @@ fn set_pos(window: &Window) {
   // |->1pxだけ隙間を開けた
 
   println!("set position");
-}
-
-fn greet(name: &str) -> String {
-  format!("Hello, {}!", name)
 }
