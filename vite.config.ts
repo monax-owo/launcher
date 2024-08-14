@@ -13,7 +13,7 @@ export default defineConfig({
   plugins: [
     sveltekit(),
     AutoImport({
-      dts: "./src/@types/auto-imports.d.ts",
+      dts: "./src/@types/generated/auto-imports.d.ts",
       include: [
         /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
         /\.svelte$/, // .svelte
