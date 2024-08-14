@@ -17,6 +17,12 @@ importers:
       '@fontsource-variable/noto-sans-jp':
         specifier: ^5.0.19
         version: 5.0.19
+      '@rspc/client':
+        specifier: ^0.2.4
+        version: 0.2.4
+      '@rspc/svelte-query':
+        specifier: ^0.2.4
+        version: 0.2.4(@tanstack/svelte-query@5.51.21(svelte@4.2.18))(svelte@4.2.18)
       '@tauri-apps/api':
         specifier: ^1.6.0
         version: 1.6.0
@@ -683,6 +689,20 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@rspc/client@0.2.4':
+    resolution: {integrity: sha512-fpgwPyEiEmJ74ZweBbrLiejezW6m79fUZqeWUTH1c2Q5Tu0Kl1hPJ5N4JP0mHQ7n9FZZWHQETxa9ywzATfQVDw==}
+
+  '@rspc/query-core@0.2.4':
+    resolution: {integrity: sha512-tKPcwJrEO9L1Nn9JEPt3h/rib8TylTvns1h9VtKXiJHeGcVtq3J5Y0S4dIVcsA4FMcHvcv/m1QNWDwvdGgYXxg==}
+    peerDependencies:
+      '@rspc/client': 0.2.4
+
+  '@rspc/svelte-query@0.2.4':
+    resolution: {integrity: sha512-G0GqM3usZLoxmN3g/h50uF8KNayoI9TuWhhP7b6IcNlXjb+rUDpGE+p0YraKVz2S2gtF0Ya2IwZDFse0g+Bwaw==}
+    peerDependencies:
+      '@tanstack/svelte-query': ^5.0.0
+      svelte: '>=3 <5'
+
   '@sideway/address@4.1.5':
     resolution: {integrity: sha512-IqO/DUQHUkPeixNQ8n0JA6102hT9CmaljNTPmQ1u8MEhBo/R4Q8eKLN/vGZxuebwOroDB4cbpjheD4+/sKFK4Q==}
 
@@ -734,6 +754,14 @@ packages:
 
   '@tabler/icons@3.6.0':
     resolution: {integrity: sha512-Zv0Ofc64RCMpZ2F8CvsWAphrSjerx5hEErt/RMmE+W8r4E5l5Lizi+My9KbbZQ4NyAtrtrOX80OY1oROZrRzEA==}
+
+  '@tanstack/query-core@5.51.21':
+    resolution: {integrity: sha512-POQxm42IUp6n89kKWF4IZi18v3fxQWFRolvBA6phNVmA8psdfB1MvDnGacCJdS+EOX12w/CyHM62z//rHmYmvw==}
+
+  '@tanstack/svelte-query@5.51.21':
+    resolution: {integrity: sha512-NaayXSdq6LDxcbtrdo45dliFuXz7tHfDSijDyyGQv5R7bqIaK1OJ2io+mXF75ufIj1WReR1tNb9qGBOjo8/Jqw==}
+    peerDependencies:
+      svelte: ^3.54.0 || ^4.0.0 || ^5.0.0-next.0
 
   '@tauri-apps/api@1.6.0':
     resolution: {integrity: sha512-rqI++FWClU5I2UBp4HXFvl+sBWkdigBkxnpJDQUWttNyG7IZP4FwQGhTNL5EOw0vI8i6eSAJ5frLqO7n7jbJdg==}
@@ -2264,7 +2292,7 @@ snapshots:
       '@babel/traverse': 7.24.8
       '@babel/types': 7.24.8
       convert-source-map: 2.0.0
-      debug: 4.3.5
+      debug: 4.3.6
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -2388,7 +2416,7 @@ snapshots:
       '@babel/helper-split-export-declaration': 7.24.7
       '@babel/parser': 7.24.8
       '@babel/types': 7.24.8
-      debug: 4.3.5
+      debug: 4.3.6
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -2695,6 +2723,20 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.18.1':
     optional: true
 
+  '@rspc/client@0.2.4': {}
+
+  '@rspc/query-core@0.2.4(@rspc/client@0.2.4)':
+    dependencies:
+      '@rspc/client': 0.2.4
+      '@tanstack/query-core': 5.51.21
+
+  '@rspc/svelte-query@0.2.4(@tanstack/svelte-query@5.51.21(svelte@4.2.18))(svelte@4.2.18)':
+    dependencies:
+      '@rspc/client': 0.2.4
+      '@rspc/query-core': 0.2.4(@rspc/client@0.2.4)
+      '@tanstack/svelte-query': 5.51.21(svelte@4.2.18)
+      svelte: 4.2.18
+
   '@sideway/address@4.1.5':
     dependencies:
       '@hapi/hoek': 9.3.0
@@ -2763,6 +2805,13 @@ snapshots:
       svelte: 4.2.18
 
   '@tabler/icons@3.6.0': {}
+
+  '@tanstack/query-core@5.51.21': {}
+
+  '@tanstack/svelte-query@5.51.21(svelte@4.2.18)':
+    dependencies:
+      '@tanstack/query-core': 5.51.21
+      svelte: 4.2.18
 
   '@tauri-apps/api@1.6.0': {}
 
