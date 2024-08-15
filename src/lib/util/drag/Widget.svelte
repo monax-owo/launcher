@@ -106,15 +106,11 @@
     }
     & > :is(.t, .r, .b, .l) {
       position: absolute;
-      opacity: 0.2;
-      background: #ff0000;
-      overflow: visible;
     }
 
-    & > :is(.t, .b):is(.r, .l) {
-      opacity: 1;
-      background-color: cyan;
-    }
+    // & > :is(.t, .b):is(.r, .l) {
+    //
+    // }
 
     & .y {
       left: 0;
