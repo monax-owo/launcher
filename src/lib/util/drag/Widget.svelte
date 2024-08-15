@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { draggable } from "$lib/util/drag/drag";
+  import { draggable, type HandleElements } from "$lib/util/drag/drag";
 
   export let borderSize: number = 1;
   export let handleSize: number = 12;
@@ -12,7 +12,7 @@
   let [left, top] = initPos;
   // let [width, height] = size;
   let target: HTMLElement;
-  let handles: HTMLElement[] = Array(8).fill(null);
+  const handles: HandleElements = {};
 
   onMount(() => {
     target.style.left = left + "px";
@@ -23,14 +23,14 @@
 <!-- TODO: dragのカーソルをどっちにするか決める -->
 <!-- TODO: サイズ変更等 -->
 <div class="root">
-  <div class="home">
-    <div
-      class="widget"
-      role="button"
-      tabindex="0"
-      bind:this={target}
-      style:--b={borderSize + "px"}
-      style:--h-size={handleSize + "px"}>
+  <div
+    class="widget"
+    role="button"
+    tabindex="0"
+    bind:this={target}
+    style:--b={borderSize + "px"}
+    style:--h-size={handleSize + "px"}>
+    <div class="body">
       <div class="header" use:draggable={{ handles, padding, size, target }}>
         <div class="header-title">{title}</div>
         <button type="button">X</button>
@@ -39,18 +39,18 @@
       <div class="content">
         <slot></slot>
       </div>
-      {#if resizeble}
-        <div class="y t" bind:this={handles[0]} />
-        <div class="x r" bind:this={handles[2]} />
-        <div class="y b" bind:this={handles[4]} />
-        <div class="x l" bind:this={handles[6]} />
-
-        <div class="t r nesw" bind:this={handles[1]} />
-        <div class="r b nwse" bind:this={handles[3]} />
-        <div class="b l nesw" bind:this={handles[5]} />
-        <div class="l t nwse" bind:this={handles[7]} />
-      {/if}
     </div>
+    {#if resizeble}
+      <div class="y t" bind:this={handles.top} />
+      <div class="x r" bind:this={handles.right} />
+      <div class="y b" bind:this={handles.bottom} />
+      <div class="x l" bind:this={handles.left} />
+
+      <div class="t r nesw" bind:this={handles.top_right} />
+      <div class="r b nwse" bind:this={handles.right_bottom} />
+      <div class="b l nesw" bind:this={handles.bottom_left} />
+      <div class="l t nwse" bind:this={handles.left_top} />
+    {/if}
   </div>
 </div>
 
@@ -62,57 +62,59 @@
     left: 0;
   }
 
-  .home {
-    position: relative;
-    width: 0;
-    height: 0;
-  }
-
   .widget {
-    display: flex;
-    position: absolute;
-    flex-flow: column nowrap;
+    position: relative;
     box-sizing: content-box;
-    border: var(--b) solid var(--b-bg);
-    border-radius: var(--b-radius);
-    background-color: var(--bg);
-    overflow: hidden;
-    color: var(--text);
-
     --b: 0;
     --h-size: 0;
     --hs: calc(var(--h-size) + var(--b));
     --nhs: calc(calc(-1 * var(--hs)) + 4px);
     --pd: calc(var(--hs) + var(--nhs));
 
-    & .header {
+    & .body {
       display: flex;
-      flex-flow: row nowrap;
-      justify-content: space-between;
-      cursor: grab;
-      padding: 0 0.4rem;
-      height: 1.4rem;
-    }
+      position: absolute;
+      flex-flow: column nowrap;
+      box-sizing: content-box;
+      border: var(--b) solid var(--b-bg);
+      border-radius: var(--b-radius);
+      background-color: var(--bg);
+      width: 100%;
+      height: 100%;
+      overflow: clip;
+      color: var(--text);
+      & .header {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        cursor: grab;
+        padding: 0 0.4rem;
+        height: 1.4rem;
+      }
 
-    & .border {
-      background-color: var(--b-bg);
-      height: var(--b);
-    }
+      & .border {
+        background-color: var(--b-bg);
+        height: var(--b);
+      }
 
-    & .content {
-      flex: 1;
-      background-color: #fff !important;
-      padding: 0 var(--pd) var(--pd);
-      height: auto;
+      & .content {
+        flex: 1;
+        background-color: #fff !important;
+        padding: 0 var(--pd) var(--pd);
+        height: auto;
+      }
     }
-
     & > :is(.t, .r, .b, .l) {
       position: absolute;
+      opacity: 0.2;
+      background: #ff0000;
+      overflow: visible;
     }
 
-    // & > :is(.t, .b):is(.r, .l) {
-    //
-    // }
+    & > :is(.t, .b):is(.r, .l) {
+      opacity: 1;
+      background-color: cyan;
+    }
 
     & .y {
       left: 0;

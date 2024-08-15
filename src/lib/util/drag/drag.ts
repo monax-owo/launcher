@@ -5,7 +5,7 @@ type E = HTMLElement;
 
 interface DraggableParam {
   grabbingCursor?: string;
-  handles?: HandleElements | Array<E>;
+  handles?: HandleElements;
   padding?: number;
   resizeble?: boolean;
   size?: [number, number];
@@ -13,7 +13,7 @@ interface DraggableParam {
   zindex?: number;
 }
 
-interface HandleElements {
+interface HandleElementsReq {
   top: E;
   top_right: E;
   right: E;
@@ -21,34 +21,17 @@ interface HandleElements {
   bottom: E;
   bottom_left: E;
   left: E;
-  left_top: E;
+  left_top?: E;
 }
 
-const arrayToHandleElements = (array: Array<E>): HandleElements => {
-  if (array.length === 4) {
-    // [top, right, bottom, left];
-    return {} as HandleElements;
-  } else if (array.length === 8) {
-    // [top, top_right, right, right_bottom, bottom, bottom_left, left, left_top];
-    return {} as HandleElements;
-  }
-  throw new Error("array length is wrong");
-};
+export type HandleElements = Partial<HandleElementsReq>;
 
 // TODO: 呼び出し元に操作用の関数を渡す(返す)？
 // TODO: 初期状態を最小化にする
 // TODO: ハンドルを掴んだときのヘルパー関数を作る
 const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
   let target = param.target ?? node;
-
-  let handles: HandleElements | null;
-  if (param.handles) {
-    handles = Array.isArray(param.handles) ? arrayToHandleElements(param.handles) : param.handles;
-  } else {
-    handles = null;
-  }
-  // TODO
-  console.log(handles);
+  let handles = param.handles;
 
   const GRABBINGCURSOR = param.grabbingCursor ?? "grabbing";
   const PADDING = param.padding ?? 0;
@@ -57,6 +40,7 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
   let aheadCursor: string;
   let aheadZindex: string;
 
+  // window
   let windowWidth: number;
   let windowHeight: number;
   const handleWindowResize = () => {
@@ -65,7 +49,9 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
   };
   handleWindowResize();
   window.addEventListener("resize", handleWindowResize);
+  // window
 
+  // pointerdown
   const down = (e: PointerEvent) => {
     const parent = target.parentElement;
     if (parent === null) throw new Error("");
@@ -104,14 +90,6 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
       target.style.zIndex = aheadZindex;
     };
 
-    const getClientPosX = (event: PointerEvent) => {
-      return "clientX" in event ? event.clientX : 0;
-    };
-
-    const getClientPosY = (event: PointerEvent) => {
-      return "clientY" in event ? event.clientY : 0;
-    };
-
     const move = (x: number, y: number) => {
       let moveLeft = x - diffX;
       let moveTop = y - diffY;
@@ -138,6 +116,75 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
       move(x, y);
     });
   };
+  // pointerdown
+
+  // handle
+  // dragListenとヘルパーだけでいい？
+  const helperX = (e: PointerEvent): [number, number, number] => {
+    const base = getClientPosX(e);
+    const width = parseInt(getComputedStyle(target).width);
+    const left = parseInt(getComputedStyle(target).left);
+    return [base, width, left];
+  };
+
+  const helperY = (e: PointerEvent): [number, number, number] => {
+    const base = getClientPosY(e);
+    const height = parseInt(getComputedStyle(target).height);
+    const top = parseInt(getComputedStyle(target).top);
+    return [base, height, top];
+  };
+
+  type HandleHandleBar = (e: PointerEvent) => void;
+  const handle: Record<string, HandleHandleBar> = {
+    top: (e) => console.log(e),
+    top_right: () => {},
+    right: (e) => {
+      helperX(e);
+    },
+    right_bottom: () => {},
+    bottom: (e) => {
+      helperY(e);
+    },
+    bottom_left: () => {},
+    left: () => {},
+    left_top: () => {},
+  } as const;
+
+  const resizeListen = () => {
+    if (handles) {
+      handles.top?.addEventListener("pointerdown", handle.top);
+      handles.top_right?.addEventListener("pointerdown", handle.top_right);
+      handles.right?.addEventListener("pointerdown", handle.right);
+      handles.right_bottom?.addEventListener("pointerdown", handle.right_bottom);
+      handles.bottom?.addEventListener("pointerdown", handle.bottom);
+      handles.bottom_left?.addEventListener("pointerdown", handle.bottom_left);
+      handles.left?.addEventListener("pointerdown", handle.left);
+      handles.left_top?.addEventListener("pointerdown", handle.left_top);
+    }
+  };
+
+  const resizeUnListen = () => {
+    if (handles) {
+      handles.top?.removeEventListener("pointerdown", handle.top);
+      handles.top_right?.removeEventListener("pointerdown", handle.top_right);
+      handles.right?.removeEventListener("pointerdown", handle.right);
+      handles.right_bottom?.removeEventListener("pointerdown", handle.right_bottom);
+      handles.bottom?.removeEventListener("pointerdown", handle.bottom);
+      handles.bottom_left?.removeEventListener("pointerdown", handle.bottom_left);
+      handles.left?.removeEventListener("pointerdown", handle.left);
+      handles.left_top?.removeEventListener("pointerdown", handle.left_top);
+    }
+  };
+  // handle
+
+  // util
+  const getClientPosX = (event: PointerEvent) => {
+    return "clientX" in event ? event.clientX : 0;
+  };
+
+  const getClientPosY = (event: PointerEvent) => {
+    return "clientY" in event ? event.clientY : 0;
+  };
 
   const applyWidth = (value: number): void => {
     if (value > windowWidth) value = windowWidth;
@@ -153,19 +200,26 @@ const draggable: Action<HTMLElement, DraggableParam> = (node, param) => {
     applyWidth(width);
     applyHeight(height);
   };
+  // util
 
   node.addEventListener("pointerdown", down);
   node.addEventListener("dragstart", (e) => e.preventDefault());
 
   return {
     update(param) {
-      if (param.target) target = param.target;
+      if (param.target && param.target !== target) target = param.target;
       if (param.size) resize(param.size[0], param.size[1]);
+      if (param.handles) {
+        resizeUnListen();
+        handles = param.handles;
+        resizeListen();
+      }
     },
     destroy() {
       node.removeEventListener("pointerdown", down);
       node.removeEventListener("dragstart", (e) => e.preventDefault());
       window.removeEventListener("resize", handleWindowResize);
+      resizeUnListen();
     },
   };
 };
