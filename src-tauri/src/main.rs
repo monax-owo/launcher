@@ -5,8 +5,8 @@ use reqwest::Client;
 // use serde::{Deserialize, Serialize};
 use std::os::raw::c_void;
 use tauri::{
-  CustomMenuItem, Manager, PhysicalPosition, PhysicalSize, SystemTray, SystemTrayEvent,
-  SystemTrayMenu, Window, WindowEvent,
+  generate_context, generate_handler, Builder, CustomMenuItem, Manager, PhysicalPosition,
+  PhysicalSize, SystemTray, SystemTrayEvent, SystemTrayMenu, Window, WindowEvent,
 };
 
 mod command;
@@ -14,6 +14,7 @@ mod config;
 mod suggest;
 
 use command::*;
+use config::*;
 use suggest::*;
 
 #[cfg(target_os = "windows")]
@@ -33,7 +34,7 @@ async fn main() {
   )
   .expect("failed to generate types");
 
-  let builder = tauri::Builder::default();
+  let builder = Builder::default();
   let client = Client::new();
 
   builder
@@ -97,8 +98,8 @@ async fn main() {
       _ => (),
     })
     .manage(client)
-    .invoke_handler(tauri::generate_handler![exit, suggest, main_window_focus])
-    .run(tauri::generate_context!())
+    .invoke_handler(generate_handler![exit, suggest, main_window_focus])
+    .run(generate_context!())
     .expect("error while running tauri application");
 }
 

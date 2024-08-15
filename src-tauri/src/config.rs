@@ -1,8 +1,9 @@
 use serde::{Deserialize, Serialize};
 
+const CONFIGFILE_PATH: &str = ".lunerc.toml";
 const DEFAULT_CONFIGFILE: &str = include_str!("./static/.lunerc.toml");
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Config {
   test: String,
 }
