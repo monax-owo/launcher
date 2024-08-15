@@ -92,7 +92,6 @@ async fn main() {
           println!("show");
         } else {
           e.window().hide().unwrap();
-          println!("hide");
         }
       }
       _ => (),

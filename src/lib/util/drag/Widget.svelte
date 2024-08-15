@@ -1,5 +1,9 @@
 <script lang="ts">
   import { draggable, type HandleElements } from "$lib/util/drag/drag";
+  import IconMinus from "@tabler/icons-svelte/IconMinus.svelte";
+  // import IconMaximize from "@tabler/icons-svelte/IconMaximize.svelte";
+  import IconRectangle from "@tabler/icons-svelte/IconRectangle.svelte";
+  import IconX from "@tabler/icons-svelte/IconX.svelte";
 
   export let borderSize: number = 1;
   export let handleSize: number = 12;
@@ -8,6 +12,8 @@
   export let resizeble: boolean = true;
   export let size: [number, number] = [400, 280];
   export let title: string = "no title";
+
+  const stroke = 2;
 
   let [left, top] = initPos;
   // let [width, height] = size;
@@ -33,7 +39,12 @@
     <div class="body">
       <div class="header" use:draggable={{ handles, padding, size, target }}>
         <div class="header-title">{title}</div>
-        <button type="button">X</button>
+        <div class="container" on:pointerdown|stopPropagation={() => {}}>
+          <button type="button"><IconMinus {stroke} /></button>
+          <!-- <button type="button"><IconMaximize {stroke} /></button> -->
+          <button type="button"><IconRectangle {stroke} /></button>
+          <button type="button"><IconX {stroke} /></button>
+        </div>
       </div>
       <div class="border" />
       <div class="content">
@@ -88,8 +99,18 @@
         flex-flow: row nowrap;
         justify-content: space-between;
         cursor: grab;
-        padding: 0 0.4rem;
-        height: 1.4rem;
+        padding: 0.2rem 0.4rem;
+        & .container {
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: center;
+          gap: 0.4rem;
+          & button {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+          }
+        }
       }
 
       & .border {
