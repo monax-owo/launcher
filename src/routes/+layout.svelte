@@ -32,11 +32,7 @@
 </script>
 
 <svelte:window on:contextmenu|preventDefault={() => console.log("contextmenu")} />
-<svelte:body
-  on:click={async () => {
-    console.log("hide");
-    await appWindow.hide();
-  }} />
+<svelte:body on:click={async () => await appWindow.hide()} />
 
 <div id="app">
   <slot></slot>
