@@ -25,9 +25,6 @@ use windows::Win32::{
 
 #[tokio::main]
 async fn main() {
-  let default_config = Config {
-    test: "value s".to_string(),
-  };
   #[cfg(debug_assertions)]
   tauri_specta::ts::export(
     specta::collect_types![
@@ -49,7 +46,7 @@ async fn main() {
 
       #[cfg(debug_assertions)]
       {
-        default_config_gen(Path::new("src").join("static").as_path(), &default_config).unwrap();
+        asset_config_gen(Path::new("src").join("assets").as_path(), &Config::new()).unwrap();
         main_window.open_devtools();
         println!("is dev");
         // main_window.set_ignore_cursor_events(true).unwrap();
@@ -68,7 +65,6 @@ async fn main() {
           }
         }
       }
-      read_config().unwrap();
 
       let tray_menu = SystemTrayMenu::new()
         .add_item(CustomMenuItem::new("show", "Show window"))
