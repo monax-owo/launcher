@@ -71,8 +71,8 @@ where
   println!("text = {}", text_toml);
 
   // パースできなかった場合の処理を追加する
-  let text_value = toml::from_str::<Value>(&text_toml)?;
-  let buf_value = toml::from_str::<Value>(&buf_toml)?;
+  let text_value = toml::from_str::<Value>(text_toml)?;
+  let buf_value = toml::from_str::<Value>(buf_toml)?;
   if buf_value != text_value {
     config_buf_writer.write_all(text_toml.as_bytes())?;
   }
