@@ -13,7 +13,6 @@ pub async fn get_suggest(
     "google" => google(query, client).await?,
     _ => bail!("missing service"),
   };
-  println!("{:?}", &res);
   Ok(res)
 }
 
