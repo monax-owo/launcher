@@ -11,9 +11,7 @@ const config = {
       $routes: "src/routes",
       $types: "src/@types",
     },
-    paths: {
-      base: process.argv.includes("dev") ? "/dev" : "",
-    },
   },
 };
+
 export default config;
