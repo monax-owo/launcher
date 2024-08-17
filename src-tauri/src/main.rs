@@ -3,9 +3,9 @@
 
 use reqwest::Client;
 // use serde::{Deserialize, Serialize};
-use std::{os::raw::c_void, path::Path};
+use std::{error::Error, fs::OpenOptions, os::raw::c_void, path::Path};
 use tauri::{
-  generate_context, generate_handler, Builder, CustomMenuItem, Manager, PhysicalPosition,
+  generate_context, generate_handler, App, Builder, CustomMenuItem, Manager, PhysicalPosition,
   PhysicalSize, SystemTray, SystemTrayEvent, SystemTrayMenu, Window, WindowEvent,
 };
 
@@ -38,61 +38,76 @@ async fn main() {
   let client = Client::new();
 
   builder
-    .setup(move |app| {
-      let handle = app.handle();
-      let main_window = app.get_window("main").expect("Failed to get main window");
+    .setup(
+      move |app: &mut App| -> Result<_, Box<(dyn Error + 'static)>> {
+        let handle = app.handle();
+        let main_window = app.get_window("main").expect("Failed to get main window");
 
-      set_pos(&main_window);
+        set_pos(&main_window);
 
-      #[cfg(debug_assertions)]
-      {
-        asset_config_gen(Path::new("src").join("assets").as_path(), &Config::new()).unwrap();
-        main_window.open_devtools();
-        println!("is dev");
-        // main_window.set_ignore_cursor_events(true).unwrap();
-        // ts側でbodyにカーソルが乗っているときだけtrueにする？
-      }
+        #[cfg(debug_assertions)]
+        {
+          if let Ok(_) = (|| -> anyhow::Result<()> {
+            let config_dir = Path::new("src/assets");
+            asset_config_gen(
+              config_dir,
+              &Config::new(OpenOptions::new().read(true).write(true).open(config_dir)?).0,
+            )
+            .unwrap();
 
-      if cfg!(target_os = "windows") {
-        if let Ok(hwnd) = main_window.hwnd() {
-          unsafe {
-            let _ = DwmSetWindowAttribute::<HWND>(
-              std::mem::transmute(hwnd),
-              DWMWA_TRANSITIONS_FORCEDISABLED,
-              &mut BOOL::from(true) as *mut _ as *mut c_void,
-              std::mem::size_of::<BOOL>() as u32,
-            );
+            main_window.open_devtools();
+            println!("is dev");
+
+            // main_window.set_ignore_cursor_events(true).unwrap();
+            // ts側でbodyにカーソルが乗っているときだけtrueにする？
+
+            Ok(())
+          })() {
+            println!("success");
+          } else {
+            println!("failure");
           }
         }
-      }
 
-      let tray_menu = SystemTrayMenu::new()
-        .add_item(CustomMenuItem::new("show", "Show window"))
-        .add_item(CustomMenuItem::new("quit", "Quit"));
-
-      let _tray_handle = SystemTray::new()
-        .with_menu(tray_menu)
-        .on_event(move |e| match &e {
-          SystemTrayEvent::LeftClick { .. } => {
-            window_focus(&main_window).expect("failed to focusing main window")
+        if cfg!(target_os = "windows") {
+          if let Ok(hwnd) = main_window.hwnd() {
+            unsafe {
+              let _ = DwmSetWindowAttribute::<HWND>(
+                hwnd,
+                DWMWA_TRANSITIONS_FORCEDISABLED,
+                &mut BOOL::from(true) as *mut _ as *mut c_void,
+                std::mem::size_of::<BOOL>() as u32,
+              );
+            }
           }
-          SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
-            "show" => window_focus(&main_window).expect("failed to focusing main window"),
-            "quit" => exit_0(&handle).expect("Failed to remove tasktray icon"),
-            &_ => (),
-          },
-          _ => (),
-        })
-        .build(app)?;
-      Ok(())
-    })
+        }
+
+        let tray_menu = SystemTrayMenu::new()
+          .add_item(CustomMenuItem::new("show", "Show window"))
+          .add_item(CustomMenuItem::new("quit", "Quit"));
+
+        let _tray_handle = SystemTray::new()
+          .with_menu(tray_menu)
+          .on_event(move |e| match &e {
+            SystemTrayEvent::LeftClick { .. } => {
+              window_focus(&main_window).expect("failed to focusing main window")
+            }
+            SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
+              "show" => window_focus(&main_window).expect("failed to focusing main window"),
+              "quit" => exit_0(&handle).expect("Failed to remove tasktray icon"),
+              &_ => (),
+            },
+            _ => (),
+          })
+          .build(app)?;
+        Ok(())
+      },
+    )
     .on_window_event(move |e| match e.event() {
       WindowEvent::Resized(_) => set_pos(e.window()),
       WindowEvent::Destroyed => println!("destroy!"),
       WindowEvent::Focused(focus) => {
-        if *focus {
-          println!("show");
-        } else {
+        if !*focus {
           e.window().hide().unwrap();
         }
       }

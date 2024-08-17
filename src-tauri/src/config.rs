@@ -10,12 +10,18 @@ use serde::{Deserialize, Serialize};
 use toml::Value;
 
 const CONFIGFILE_NAME: &str = ".lunerc.toml";
-const DEFAULT_CONFIGFILE: &str = include_str!("assets/.lunerc.toml");
+// const CONFIGFILE_DIR: &str = "assets/";
+// const DEFAULT_CONFIGFILE: &str = include_str!("assets/.lunerc.toml");
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Config {
-  pub test: String,
-  pub theme: Theme,
+  test: String,
+  theme: Theme,
+}
+
+#[derive(Debug)]
+pub struct Info {
+  file: File,
 }
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -25,12 +31,51 @@ pub enum Theme {
   White,
 }
 
+// tomlに記述する内容はinfo以外
+// traitにする？
 impl Config {
-  pub fn new() -> Self {
-    Config {
-      test: "".to_string(),
-      theme: Theme::Auto,
-    }
+  pub fn new(file: File) -> (Self, Info) {
+    (
+      Self {
+        test: String::default(),
+        theme: Theme::Auto,
+      },
+      Info::new(file),
+    )
+  }
+
+  // file
+  pub fn sync(&mut self) -> anyhow::Result<()> {
+    // Selfとコンフィグファイルを同期するメソッド、実装どうしよう
+    // コンフィグファイル優先で
+    todo!()
+  }
+  pub fn read(self) -> anyhow::Result<()> {
+    // コンフィグファイルの内容をSelfに書き込むメソッド
+    todo!()
+  }
+  pub fn write(&mut self) -> anyhow::Result<()> {
+    // Selfの内容をコンフィグファイルに書き込むメソッド
+
+    let parse = toml::to_string(self)?;
+
+    todo!()
+  }
+  // file
+
+  // theme
+  pub fn theme(&self) -> &Theme {
+    &self.theme
+  }
+  pub fn theme_mut(&mut self) -> &mut Theme {
+    &mut self.theme
+  }
+  //
+}
+
+impl Info {
+  pub fn new(file: File) -> Self {
+    Self { file }
   }
 }
 
