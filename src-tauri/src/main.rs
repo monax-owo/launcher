@@ -45,10 +45,10 @@ async fn main() {
 
         set_pos(&main_window);
         window_hide(&main_window)?;
-        
+
         #[cfg(debug_assertions)]
         {
-          if let Ok(_) = (|| -> anyhow::Result<()> {
+          let res = (|| -> anyhow::Result<()> {
             let config_dir = Path::new("src/assets");
             asset_config_gen(
               config_dir,
@@ -63,7 +63,9 @@ async fn main() {
             // ts側でbodyにカーソルが乗っているときだけtrueにする？
 
             Ok(())
-          })() {
+          })();
+
+          if res.is_ok() {
             println!("success");
           } else {
             println!("failure");
