@@ -122,14 +122,15 @@
     },
     "windows": [
       {
-        "label": "main",
-        "fullscreen": false,
-        "resizable": false,
-        "title": "launcher",
         "decorations": false,
-        "titleBarStyle": "Overlay",
+        "fullscreen": false,
+        "label": "main",
+        "resizable": false,
         "skipTaskbar": true,
-        "transparent": true
+        "title": "launcher",
+        "titleBarStyle": "Overlay",
+        "transparent": true,
+        "url": ""
       }
     ]
   }
