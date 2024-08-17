@@ -16,7 +16,7 @@
     "rust:fmt": "cd ./src-tauri && cargo fmt && cd ..",
     "rust:lint": "cd ./src-tauri && cargo clippy && cd ..",
     "rust:fix": "cd ./src-tauri && cargo clippy --fix --allow-dirty --allow-staged && cd ..",
-    "deploy-check": "pnpm format && pnpm rust:fmt && pnpm check && pnpm lint && pnpm tauri:build && echo success!",
+    "deploy-check": "pnpm format && pnpm rust:fmt && pnpm check && pnpm lint && pnpm rust:lint && pnpm tauri:build && echo success!",
     "prepare": "husky"
   },
   "devDependencies": {
