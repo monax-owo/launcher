@@ -28,6 +28,7 @@ pub async fn suggest<R: Runtime>(
 pub fn window_focus<R: Runtime>(window: &Window<R>) -> anyhow::Result<()> {
   window.show()?;
   window.set_focus()?;
+  window.set_always_on_top(true)?;
   Ok(())
 }
 
@@ -37,5 +38,20 @@ pub async fn main_window_focus<R: Runtime>(
   window: Window<R>,
 ) -> Result<(), String> {
   window_focus(&window).map_err(|e| e.to_string())?;
+  Ok(())
+}
+
+pub fn window_hide<R: Runtime>(window: &Window<R>) -> anyhow::Result<()> {
+  window.hide()?;
+  window.set_always_on_top(false)?;
+  Ok(())
+}
+
+#[tauri::command]
+pub async fn main_window_hide<R: Runtime>(
+  _app: AppHandle<R>,
+  window: Window<R>,
+) -> Result<(), String> {
+  window_hide(&window).map_err(|e| e.to_string())?;
   Ok(())
 }

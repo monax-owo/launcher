@@ -44,7 +44,8 @@ async fn main() {
         let main_window = app.get_window("main").expect("Failed to get main window");
 
         set_pos(&main_window);
-
+        window_hide(&main_window)?;
+        
         #[cfg(debug_assertions)]
         {
           if let Ok(_) = (|| -> anyhow::Result<()> {
@@ -108,7 +109,7 @@ async fn main() {
       WindowEvent::Destroyed => println!("destroy!"),
       WindowEvent::Focused(focus) => {
         if !*focus {
-          e.window().hide().unwrap();
+          window_hide(e.window()).expect("failed to hide window");
         }
       }
       _ => (),
